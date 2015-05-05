@@ -1,6 +1,6 @@
 # Derive Remote Sensing Indices
 
-Takes stacked raster imagery to calculate common remote sensing indices and export individual bands.
+Processes stacked raster file to calculate common remote sensing indices and export individual bands.
 
 Sensors supported:
 
