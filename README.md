@@ -35,7 +35,7 @@ based on Landsat 8 at-satellite reflectance. Remote Sensing Letters, 5(5), 423�
 
   Huete, A. . (1988). A soil-adjusted vegetation index (SAVI). Remote Sensing of Environment, 25(3), 295–309. doi:10.1016/0034-4257(88)90106-X
 
-  Kauth, R., & Thomas, G. (1976). The tasselled cap--a graphic description of the spectral-temporal development of agricultural crops as seen by Landsat. LARS Symposia. Retrieved from http://docs.lib.purdue.edu/cgi/viewcontent.cgi?article=1160&context=lars_symp
+  Kauth, R., & Thomas, G. (1976). The tasselled cap--a graphic description of the spectral-temporal development of agricultural crops as seen by Landsat. LARS Symposia.
 
   Qi, J., Chehbouni, A., Huete, A. R., Kerr, Y. H., & Sorooshian, S. (1994). A modified soil adjusted vegetation index. Remote Sensing of Environment, 48(2), 119–126. doi:10.1016/0034-4257(94)90134-1
 
