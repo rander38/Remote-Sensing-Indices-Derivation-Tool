@@ -11,7 +11,7 @@ Sensors supported:
 * Worldview-02
 * MODIS Terra and Aqua
 
-Available indices to calculate (sensor dependent):
+Currently supported indices (sensor dependent):
 * [NDVI (Normalized Difference Vegetation Index)] (http://www.indexdatabase.de/db/i-single.php?id=58)
 * [NDMI (Normalized Difference Moisture Index)] (http://www.indexdatabase.de/db/i-single.php?id=56)
 * [NDSI (Normalized Difference Soil Index)] (http://www.exelisvis.com/portals/0/pdfs/envi/8_bands_Antonio_Wolf.pdf)
@@ -36,27 +36,27 @@ Run the Python script, use the GUI to select the sensor, indices you wish to cal
 
 *Landsat 1-5 MSS*
 
-Blue - Green - Red - NIR
+* Blue - Green - Red - NIR
 
 
 *Landsat 4-5 TM/Landsat 7 ETM+:*
 
-Blue - Green - Red - NIR - SWIR1 - SWIR2
+* Blue - Green - Red - NIR - SWIR1 - SWIR2
 
 
 *Landsat 8 OLI:*
 
-Coastal - Blue - Green - Red - NIR - SWIR1 - SWIR2 - Cirrus
+* Coastal - Blue - Green - Red - NIR - SWIR1 - SWIR2 - Cirrus
 
 
 *MODIS:*
 
-Red - NIR - Green - Blue - SWIR1 - SWIR2 - SWIR3
+* Red - NIR - Green - Blue - SWIR1 - SWIR2 - SWIR3
 
 
 *Worldview 02:*
 
-Coastal - Blue - Green - Yellow - Red - Red Edge - NIR1 - NIR2
+* Coastal - Blue - Green - Yellow - Red - Red Edge - NIR1 - NIR2
 
 ### Future Plans
 
