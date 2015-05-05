@@ -30,7 +30,7 @@ Indices supported (sensor dependent):
 
 Requires arcpy and [Tkinter] (https://wiki.python.org/moin/TkInter). 
 
-Run the Python script, use the GUI to select the sensor, indices you wish to calculate, input raster, and output path.
+Run the Python script (Derive_RS_Indices.py) and use the GUI to select the sensor, indices to calculate, input raster, and output path.
 
 **Input raster should be stacked as follows:**
 
