@@ -25,6 +25,23 @@ Available indices to calculate (sensor dependent):
 
 Uses a GUI interface developed in Tkinter.
 
+**Input raster should be stacked as follows:**
+*Landsat 4-5 TM/Landsat 7 ETM+:*
+
+Blue - Green - Red - NIR - SWIR1 - SWIR2
+
+*Landsat 8 OLI:*
+
+Coastal - Blue - Green - Red - NIR - SWIR1 - SWIR2 - Cirrus
+
+*MODIS:*
+
+Red - NIR - Green - Blue - SWIR1 - SWIR2 - SWIR3
+
+*Worldview 02:*
+
+Coastal - Blue - Green - Yellow - Red - Red Edge - NIR1 - NIR2
+
 ### Works Cited
   Baig, M. H. A., Zhang, L., Shuai, T., & Tong, Q. (2015). Derivation of a tasselled cap transformation 
 based on Landsat 8 at-satellite reflectance. Remote Sensing Letters, 5(5), 423–431. doi:10.1080/2150704X.2014.915434
