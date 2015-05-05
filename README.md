@@ -25,7 +25,7 @@ Available indices to calculate (sensor dependent):
 
 Uses a GUI interface developed in Tkinter.
 
-## Works Cited
+### Works Cited
   Baig, M. H. A., Zhang, L., Shuai, T., & Tong, Q. (2015). Derivation of a tasselled cap transformation 
 based on Landsat 8 at-satellite reflectance. Remote Sensing Letters, 5(5), 423–431. doi:10.1080/2150704X.2014.915434
 
