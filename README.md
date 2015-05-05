@@ -89,3 +89,28 @@ based on Landsat 8 at-satellite reflectance. Remote Sensing Letters, 5(5), 423�
   Yarbrough, L. D., Navulur, K., & Ravi, R. (2014). Presentation of the Kauth–Thomas transform for WorldView-2 reflectance data. Remote Sensing Letters, 5(2), 131–138. doi:10.1080/2150704X.2014.885148
 
   Zhang, X. Z. X., Schaaf, C. B., Friedl, M. a., Strahler, a. H., Gao, F. G. F., & Hodges, J. C. F. (2002). MODIS tasseled cap transformation and its utility. IEEE International Geoscience and Remote Sensing Symposium, 2(C), 1063–1065. doi:10.1109/IGARSS.2002.1025776
+
+### License
+
+The MIT License (MIT)
+	
+Copyright (c) 2015 Ryan Anderson
+	
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and to permit persons 
+to whom the Software is furnished to do so, subject to the following conditions:
+	
+1.  You MAY NOT sell any application that you derive from the code in this repository 
+without specific written permission from Ryan Anderson.
+	  
+2.  The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+	
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
