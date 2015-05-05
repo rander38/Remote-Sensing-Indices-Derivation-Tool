@@ -11,7 +11,7 @@ Sensors supported:
 * Worldview-02
 * MODIS Terra and Aqua
 
-Currently supported indices (sensor dependent):
+Indices supported (sensor dependent):
 * [NDVI (Normalized Difference Vegetation Index)] (http://www.indexdatabase.de/db/i-single.php?id=58)
 * [NDMI (Normalized Difference Moisture Index)] (http://www.indexdatabase.de/db/i-single.php?id=56)
 * [NDSI (Normalized Difference Soil Index)] (http://www.exelisvis.com/portals/0/pdfs/envi/8_bands_Antonio_Wolf.pdf)
