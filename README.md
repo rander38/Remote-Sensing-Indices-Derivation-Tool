@@ -26,7 +26,11 @@ Available indices to calculate (sensor dependent):
   * Reflectance required for TM, ETM+, OLI, WV02, and MODIS
   * Digital Number (DN) required for MSS
 
-Uses a GUI interface developed in Tkinter.
+## Instructions
+
+Requires arcpy and [Tkinter] (https://wiki.python.org/moin/TkInter). 
+
+Run the Python script, use the GUI to select the sensor, indices you wish to calculate, input raster, and output path.
 
 **Input raster should be stacked as follows:**
 
@@ -54,8 +58,13 @@ Red - NIR - Green - Blue - SWIR1 - SWIR2 - SWIR3
 
 Coastal - Blue - Green - Yellow - Red - Red Edge - NIR1 - NIR2
 
+#### Future Plans
 
-### Works Cited
+* Additional Sensors/Indices (Recommendations are welcome)
+* Remove arcpy in favor of GDAL
+* QGIS/ArcGIS Toolbox
+
+#### Works Cited
   Baig, M. H. A., Zhang, L., Shuai, T., & Tong, Q. (2015). Derivation of a tasselled cap transformation 
 based on Landsat 8 at-satellite reflectance. Remote Sensing Letters, 5(5), 423–431. doi:10.1080/2150704X.2014.915434
 
