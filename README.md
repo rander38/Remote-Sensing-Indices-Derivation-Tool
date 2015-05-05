@@ -1,6 +1,6 @@
 # Derive Remote Sensing Indices
 
-Processes stacked raster file to calculate common remote sensing indices and export individual bands.
+Processes stacked raster file to calculate spectral remote sensing indices and export individual bands.
 
 Sensors supported:
 
@@ -60,7 +60,7 @@ Run the Python script, use the GUI to select the sensor, indices you wish to cal
 
 ### Future Plans
 
-* Additional Sensors/Indices (Recommendations are welcome)
+* Additional Sensors/Indices (Requests are welcome)
 * Remove arcpy in favor of GDAL
 * QGIS/ArcGIS Toolbox
 
