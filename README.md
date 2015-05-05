@@ -4,6 +4,7 @@ Takes stacked raster imagery to calculate common remote sensing indices and expo
 
 Sensors supported:
 
+* Landsat 1-5 MSS
 * Landsat 4-5 TM
 * Landsat 7 ETM+
 * Landsat 8 OLI
@@ -21,11 +22,18 @@ Available indices to calculate (sensor dependent):
 * [NBR (Normalized Burn Ratio)] (http://www.indexdatabase.de/db/i-single.php?id=53)
 * [NMDI (Normalized Multi-band Drought Index)] (http://onlinelibrary.wiley.com/doi/10.1029/2007GL031021/abstract)
 * [NHFD (Non-Homogenous Feature Difference (NHFD)] (http://www.exelisvis.com/portals/0/pdfs/envi/8_bands_Antonio_Wolf.pdf)
-* [Tasseled Cap Transformation - Brightness, Greenness, Wetness] (http://docs.lib.purdue.edu/cgi/viewcontent.cgi?article=1160&context=lars_symp&sei-redir=1&referer=http%3A%2F%2Fscholar.google.com%2Fscholar%3Fhl%3Den%26q%3Dkauth%20and%20thomas#search=%22kauth%20thomas%22)
+* [Tasseled Cap Transformation - Brightness, Greenness, Wetness, Yellowness (MSS)] (http://docs.lib.purdue.edu/cgi/viewcontent.cgi?article=1160&context=lars_symp&sei-redir=1&referer=http%3A%2F%2Fscholar.google.com%2Fscholar%3Fhl%3Den%26q%3Dkauth%20and%20thomas#search=%22kauth%20thomas%22)
+  * Reflectance required for TM, ETM+, OLI, WV02, and MODIS
+  * Digital Number (DN) required for MSS
 
 Uses a GUI interface developed in Tkinter.
 
 **Input raster should be stacked as follows:**
+
+*Landsat 1-5 MSS*
+
+Blue - Green - Red - NIR
+
 
 *Landsat 4-5 TM/Landsat 7 ETM+:*
 
@@ -45,6 +53,7 @@ Red - NIR - Green - Blue - SWIR1 - SWIR2 - SWIR3
 *Worldview 02:*
 
 Coastal - Blue - Green - Yellow - Red - Red Edge - NIR1 - NIR2
+
 
 ### Works Cited
   Baig, M. H. A., Zhang, L., Shuai, T., & Tong, Q. (2015). Derivation of a tasselled cap transformation 
