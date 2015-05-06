@@ -36,8 +36,8 @@ arcpy.CheckOutExtension("spatial")
 arcpy.env.overwriteOutput = 1
 
 ## Set input stacked image and output directory
-inPath = ""
-outPath = ""
+inPath = r"C:\temp"
+outPath = r"C:\temp"
 
 ## Create output directory if it doesn't exist
 if not os.path.exists(outPath): os.makedirs(outPath)
@@ -83,6 +83,15 @@ WV_Disable = [
 'Yellowness'
 ]
 
+sensors = [
+"Landsat 1-5 MSS",
+"Landsat 4-5 TM",
+"Landsat 7 ETM+",
+"Landsat 8 OLI",
+"MODIS",
+"Worldview 02"
+]
+
 ## GUI
 top = Tk()
 top.title("Process Imagery")
@@ -98,13 +107,12 @@ for i, text in enumerate(indices):
     if colpos % 6 == 0:
         colpos = 2
         rowpos += 1
-    cbVar[i] = Tkinter.IntVar()
-    cb[i] = Tkinter.Checkbutton(top, text=text,
-        variable=cbVar[i], command=cbChecked)
+    cbVar[i] = IntVar()
+    cb[i] = Checkbutton(top, text=text, variable=cbVar[i], command=cbChecked)
     cb[i].grid(row=rowpos, column=colpos, sticky=W, padx=4, pady=4)
     colpos += 1
     cbVar[i].set(1)
-label = Tkinter.Label(top, width=5)
+label = Label(top, width=5)
 label.grid(row=rowpos, column=colpos)
 cbChecked()
 
@@ -115,31 +123,37 @@ Label(top, text="Input Stacked Image").grid(row=8,column=1, sticky=W)
 Label(top, text="Output Directory").grid(row=10,column=1, sticky=W)
 
 # Set Radiobuttons
+def rbChecked():
+    label['text'] = ''
+    
+colpos = 1
+rowpos = 2
+rb = list(range(len(sensors)))
 vSensor = StringVar()
-cTMETM = Radiobutton(top, text= "Landsat 1-3 MSS", variable = vSensor, value = "MSS").grid(row=2, column=1, pady=4, padx=4, sticky=W)
-cTMETM = Radiobutton(top, text= "Landsat 4-5 TM", variable = vSensor, value = "TM").grid(row=3, column=1, pady=4, padx=4, sticky=W)
-cTMETM = Radiobutton(top, text= "Landsat 7 ETM+", variable = vSensor, value = "ETM").grid(row=4, column=1, pady=4, padx=4, sticky=W)
-cOLI = Radiobutton(top, text= "Landsat 8 OLI", variable = vSensor, value = "OLI").grid(row=5, column=1, pady=4, padx=4, sticky=W)
-cMODIS = Radiobutton(top, text= "MODIS", variable = vSensor, value = "MODIS").grid(row=6, column=1, pady=4, padx=4, sticky=W)
-cWV = Radiobutton(top, text= "Worldview 02", variable = vSensor, value = "WV").grid(row=7, column=1, pady=4, padx=4, sticky=W)
+for i, sensor in enumerate(sensors):
+    rb[i] = Radiobutton(top, text=sensor, variable=vSensor, value=sensor)
+    rb[i].grid(row=rowpos, column=colpos, pady=4, padx=4, sticky=W)
+    rowpos += 1
+rbChecked()
 
+## Disable or enable checkbuttons based on sensor selection
 def showstate(*args):
-    if vSensor.get() == "WV":
+    if vSensor.get() == "Worldview 02":
         for i in indices:
             cbVar[indices.index(i)].set(1)
             cb[indices.index(i)].configure(state='normal')
         for i in WV_Disable:
             cbVar[indices.index(i)].set(0)
             cb[indices.index(i)].configure(state='disabled')
-    elif vSensor.get() == 'TM' or vSensor.get() == 'ETM' or vSensor.get() == 'MODIS' or vSensor.get() == 'OLI':
+    elif vSensor.get() == "Landsat 4-5 TM" or vSensor.get() == "Landsat 7 ETM+" or vSensor.get() == 'MODIS' or vSensor.get() == "Landsat 8 OLI":
         for i in indices:
             cbVar[indices.index(i)].set(1)
             cb[indices.index(i)].configure(state='normal')
         for i in TM_ETM_OLI_MODIS_Disable:
             cbVar[indices.index(i)].set(0)
             cb[indices.index(i)].configure(state='disabled')
-    elif vSensor.get() == 'MSS':
-        for i in WV_Disable:
+    elif vSensor.get() == "Landsat 1-5 MSS":
+        for i in indices:
             cbVar[indices.index(i)].set(1)
             cb[indices.index(i)].configure(state='normal')
         for i in MSS_Disable:
@@ -148,9 +162,9 @@ def showstate(*args):
 
 def tcapshowstate(*args):
     if cbVar[indices.index("Brightness")].get() or cbVar[indices.index("Greenness")].get() or cbVar[indices.index("Wetness")].get():
-        if vSensor.get() == "MODIS" or vSensor.get() == "TM" or vSensor.get() == "WV" or vSensor.get() == "ETM" or vSensor.get() == "OLI":
+        if vSensor.get() == "MODIS" or vSensor.get() == "Landsat 4-5 TM" or vSensor.get() == "Worldview 02" or vSensor.get() == "Landsat 7 ETM+" or vSensor.get() == "Landsat 8 OLI":
             form["text"] = "Tasseled Cap Transformation for \n" + vSensor.get() + " requires Reflectance"
-        if vSensor.get() == "MSS": 
+        if vSensor.get() == "Landsat 1-5 MSS": 
             form["text"] = "Tasseled Cap Transformation for \n" + vSensor.get() + " requires Digital Number (DN)"
     else:
         form["text"] = ""
@@ -163,7 +177,7 @@ cbVar[indices.index("Brightness")].trace_variable("w", tcapshowstate)
 cbVar[indices.index("Greenness")].trace_variable("w", tcapshowstate)
 cbVar[indices.index("Wetness")].trace_variable("w", tcapshowstate)
 vSensor.trace_variable("w", tcapshowstate)
-vSensor.set("TM")
+vSensor.set("Landsat 4-5 TM")
 
 top.resizable(0,0) # Disable window resizing
 
@@ -198,7 +212,7 @@ outdirButton = Button(top, text = 'Browse', command=outdirbrowser).grid(row=11, 
 ## Run Button
 def callback():
     top.destroy()
-Button(top, text = 'Run', command=callback).grid(row=12,column=2, pady=4, padx=4)
+Button(top, text = 'Run', command=callback).grid(row=12,column=4, pady=4, padx=4)
 
 ## Quit Button
 def quitbutton():
@@ -223,13 +237,13 @@ print "Processing", inRaster
 bands = arcpy.ListRasters()
 
 ## Set band values
-if Sensor == "MSS":
+if Sensor == "Landsat 1-5 MSS":
     BlueBand = "1"
     GreenBand = "2"
     RedBand = "3"
     NIR1Band = "4"
 
-if Sensor == "TM" or Sensor == "ETM":
+if Sensor == "Landsat 4-5 TM" or Sensor == "Landsat 7 ETM+":
     BlueBand = "1"
     GreenBand = "2"
     RedBand = "3"
@@ -237,7 +251,7 @@ if Sensor == "TM" or Sensor == "ETM":
     SWIR1Band = "5"
     SWIR2Band = "6"
 
-if Sensor == "OLI":
+if Sensor == "Landsat 8 OLI":
     CoastalBand = "1"
     BlueBand = "2"
     GreenBand = "3"
@@ -256,7 +270,7 @@ if Sensor == "MODIS":
     SWIR1Band = "6"
     SWIR2Band = "7"
 
-if Sensor == "WV":
+if Sensor == "Worldview 02":
     CoastalBand = "1"
     BlueBand = "2"
     GreenBand = "3"
@@ -268,11 +282,10 @@ if Sensor == "WV":
 
 ## Export individual bands
 band = 0
-if exportIndBands == 1:
-    for bandfile in bands:
-        band += 1
-        outBand = Raster(bandfile) * 1.0
-        outBand.save(outPath + "/" + inRaster[:-4] + "_B" + str(band) + ".tif")
+for bandfile in bands:
+    band += 1
+    outBand = Raster(bandfile) * 1.0
+    outBand.save(outPath + "/" + inRaster[:-4] + "_B" + str(band) + ".tif")
 
 ## Set band files based on sensor
 Green = Raster(outPath + "/"  + inRaster[:-4] + "_B" + GreenBand + ".tif")
@@ -280,21 +293,21 @@ Red = Raster(outPath + "/"  + inRaster[:-4] + "_B" + RedBand + ".tif")
 NIR1 = Raster(outPath + "/"  + inRaster[:-4] + "_B" + NIR1Band + ".tif")
 Blue = Raster(outPath + "/"  + inRaster[:-4] + "_B" + BlueBand + ".tif")
 
-if Sensor == "WV" or Sensor == "OLI":
+if Sensor == "Worldview 02" or Sensor == "Landsat 8 OLI":
     Coastal = Raster(outPath + "/" + inRaster[:-4] + "_B" + CoastalBand + ".tif")
 
-if Sensor == "WV":
+if Sensor == "Worldview 02":
     Yellow = Raster(outPath + "/"  + inRaster[:-4] + "_B" + YellowBand + ".tif")
     RedEdge = Raster(outPath + "/"  + inRaster[:-4] + "_B" + RedEdgeBand + ".tif")
 
-if Sensor == "WV" or Sensor == "MODIS":
+if Sensor == "Worldview 02" or Sensor == "MODIS":
     NIR2 = Raster(outPath + "/"  + inRaster[:-4] + "_B" + NIR2Band + ".tif")
 
-if Sensor == "TM" or Sensor == "ETM" or Sensor == "OLI" or Sensor == "MODIS":
+if Sensor == "Landsat 4-5 TM" or Sensor == "Landsat 7 ETM+" or Sensor == "Landsat 8 OLI" or Sensor == "MODIS":
     SWIR1 = Raster(outPath + "/"  + inRaster[:-4] + "_B" + SWIR1Band + ".tif")
     SWIR2 = Raster(outPath + "/"  + inRaster[:-4] + "_B" + SWIR2Band + ".tif")
 
-if Sensor == "MSS":
+if Sensor == "Landsat 1-5 MSS":
     indicesForm = {
         'NDVI':(NIR1 - Red)/(NIR1 + Red),
         'NDWI':(Green - NIR1)/(Green + NIR1),
@@ -303,7 +316,7 @@ if Sensor == "MSS":
         }
 
 ## Select which possible indices to calculate based on sensor
-if Sensor == "TM" or Sensor == "ETM" or Sensor == "OLI" or Sensor == "MODIS":
+if Sensor == "Landsat 4-5 TM" or Sensor == "Landsat 7 ETM+" or Sensor == "Landsat 8 OLI" or Sensor == "MODIS":
     indicesForm = {
         'NDVI':(NIR1 - Red)/(NIR1 + Red),
         'NDMI':(NIR1 - SWIR1)/(NIR1 + SWIR1),
@@ -315,7 +328,7 @@ if Sensor == "TM" or Sensor == "ETM" or Sensor == "OLI" or Sensor == "MODIS":
         'NMDI':(NIR1 - (SWIR1 - SWIR2))/(NIR1 + (SWIR1 - SWIR2))
         }
 
-if Sensor == "WV":
+if Sensor == "Worldview 02":
     indicesForm = {
         'NDVI':(NIR1 - Red)/(NIR1 + Red),
         'NDSI':(Green - Yellow)/(Green + Yellow),
@@ -326,7 +339,7 @@ if Sensor == "WV":
         }
 
 ## Add Tasseled Cap Transformation with sensor specific coefficients
-if Sensor == "MSS": 
+if Sensor == "Landsat 1-5 MSS": 
     indicesForm['Brightness'] = (Blue * 0.433) + (Green * 0.632) + (Red * 0.586) + (NIR1 * 0.264)
     indicesForm['Greenness'] = (Blue * -0.290) + (Green * -0.562) + (Red * 0.600) + (NIR1 * 0.491)
     indicesForm['Yellowness'] = (Blue * -0.829) + (Green * 0.522) + (Red * -0.039) + (NIR1 * 0.194)
@@ -336,7 +349,7 @@ Kauth, R., & Thomas, G. (1976). The tasselled cap--a graphic description of the 
 as seen by Landsat. LARS Symposia.
 '''
 
-if Sensor == "OLI": 
+if Sensor == "Landsat 8 OLI": 
     indicesForm['Brightness'] = (Blue * 0.3029) + (Green * 0.2786) + (Red * 0.4733) + (NIR1 * 0.5599) + (SWIR1 * 0.508) + (SWIR2 * 0.1872)
     indicesForm['Greenness'] = (Blue * -0.2941) + (Green * -0.243) + (Red * -0.5424) + (NIR1 * 0.7276) + (SWIR1 * 0.0713) + (SWIR2 * -0.1608)
     indicesForm['Wetness'] = (Blue * 0.1511) + (Green * 0.1973) + (Red * 0.3283) + (NIR1 * 0.3407) + (SWIR1 * -0.7117) + (SWIR2 * -0.4559)
@@ -347,7 +360,7 @@ Baig, M. H. A., Zhang, L., Shuai, T., & Tong, Q. (2015). Derivation of a tassell
 Remote Sensing Letters, 5(5), 423-431. doi:10.1080/2150704X.915434
 '''
 
-if Sensor == "TM":
+if Sensor == "Landsat 4-5 TM":
     indicesForm['Brightness'] = (Blue * 0.2043) + (Green * 0.4158) + (Red * 0.5524) + (NIR1 * 0.5741) + (SWIR1 * 0.3124) + (SWIR2 * 0.2303)
     indicesForm['Greenness'] = (Blue * -0.1603) + (Green * -0.2819) + (Red * -0.4934) + (NIR1 * 0.7940) + (SWIR1 * 0.0002) + (SWIR2 * -0.1446)
     indicesForm['Wetness'] = (Blue * 0.0315) + (Green * 0.2021) + (Red * 0.3102) + (NIR1 * 0.1594) + (SWIR1 * -0.6806) + (SWIR2 * -0.6109)
@@ -357,7 +370,7 @@ Coefficients derived from:
 Crist, E. P. (1985). A TM Tasseled Cap equivalent transformation for reflectance factor data. Remote Sensing of Environment, 17(3), 301-306. doi:10.1016/0034-4257(85)90102-6
   '''    
 
-if Sensor == "ETM":
+if Sensor == "Landsat 7 ETM+":
     indicesForm['Greenness'] = (Blue * -0.3344) + (Green * -0.3544) + (Red * -0.4556) + (NIR1 * 0.6966) + (SWIR1 * -0.0242) + (SWIR2 * -0.2630)
     indicesForm['Brightness'] = (Blue * 0.3561) + (Green * 0.3972) + (Red * 0.3904) + (NIR1 * 0.6966) + (SWIR1 * 0.2286) + (SWIR2 * 0.1596)
     indicesForm['Wetness'] = (Blue * 0.2626) + (Green * 0.2141) + (Red * 0.0926) + (NIR1 * 0.0656) + (SWIR1 * -0.7629) + (SWIR2 * -0.5388)
@@ -380,7 +393,7 @@ MODIS tasseled cap transformation and its utility. IEEE International Geoscience
 2(C), 1063-1065. doi:10.1109/IGARSS.2002.1025776
   '''
 
-if Sensor == "WV":
+if Sensor == "Worldview 02":
     indicesForm['Brightness'] = (Coastal * -0.060436) + (Blue * 0.012147) + (Green *  0.125846) + (Yellow * 0.313039) + (Red *  0.412175) + (RedEdge * 0.482758) + (NIR1 * -0.160654) + (NIR2 * 0.673510)
     indicesForm['Greenness'] = (Coastal * -0.140191) + (Blue * -0.206224) + (Green * -0.215854) + (Yellow * -0.314441) + (Red * -0.410892) + (RedEdge * 0.095786) + (NIR1 * 0.600549) + (NIR2 * 0.503672)
     indicesForm['Wetness'] = (Coastal * -0.270951) + (Blue * -0.315708) + (Green * -0.317263) + (Yellow * -0.242544) + (Red * -0.256463) + (RedEdge * -0.096550) + (NIR1 * -0.742535) + (NIR2 * 0.202430)
