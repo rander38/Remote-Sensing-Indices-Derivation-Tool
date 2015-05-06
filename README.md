@@ -1,4 +1,4 @@
-# Derive Remote Sensing Indices
+# Remote Sensing Indices Derivation
 
 Processes stacked raster file to calculate spectral remote sensing indices and export individual bands.
 
