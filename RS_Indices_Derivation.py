@@ -129,7 +129,7 @@ rb = list(range(len(sensors)))
 vSensor = StringVar()
 for i, sensor in enumerate(sensors):
     rb[i] = Radiobutton(top, text=sensor, variable=vSensor, value=sensor)
-    rb[i].grid(row=rowpos, column=colpos, pady=4, padx=4, sticky=W)
+    rb[i].grid(row=rowpos, column=colpos, pady=4, padx=7, sticky=W)
     rowpos += 1
 rbChecked()
 
@@ -281,6 +281,7 @@ if Sensor == "Worldview 02":
     NIR2Band = "8"
 
 ## Export individual bands
+print "Exporting Bands"
 band = 0
 for bandfile in bands:
     band += 1
