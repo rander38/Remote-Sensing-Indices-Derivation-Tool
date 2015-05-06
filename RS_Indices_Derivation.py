@@ -36,11 +36,8 @@ arcpy.CheckOutExtension("spatial")
 arcpy.env.overwriteOutput = 1
 
 ## Set input stacked image and output directory
-inPath = r"C:\temp"
-outPath = r"C:\temp"
-
-## Create output directory if it doesn't exist
-if not os.path.exists(outPath): os.makedirs(outPath)
+inPath = r""
+outPath = r""
 
 indices = [
 'NDVI',
@@ -229,6 +226,9 @@ Sensor = vSensor.get()
 inPath = indirVar.get()
 outPath = outdirVar.get()
 
+## Create output directory if it doesn't exist
+if not (outPath and os.path.exists(outPath)): os.makedirs(outPath)
+
 arcpy.env.workspace = inPath
 
 inPath, inRaster = os.path.split(inPath)
@@ -344,7 +344,7 @@ if Sensor == "Landsat 1-5 MSS":
     indicesForm['Greenness'] = (Blue * -0.290) + (Green * -0.562) + (Red * 0.600) + (NIR1 * 0.491)
     indicesForm['Yellowness'] = (Blue * -0.829) + (Green * 0.522) + (Red * -0.039) + (NIR1 * 0.194)
 
-''' MSS Requires Digital Number (DN)
+''' Requires Digital Number (DN)
 Kauth, R., & Thomas, G. (1976). The tasselled cap--a graphic description of the spectral-temporal development of agricultural crops
 as seen by Landsat. LARS Symposia.
 '''
@@ -354,8 +354,7 @@ if Sensor == "Landsat 8 OLI":
     indicesForm['Greenness'] = (Blue * -0.2941) + (Green * -0.243) + (Red * -0.5424) + (NIR1 * 0.7276) + (SWIR1 * 0.0713) + (SWIR2 * -0.1608)
     indicesForm['Wetness'] = (Blue * 0.1511) + (Green * 0.1973) + (Red * 0.3283) + (NIR1 * 0.3407) + (SWIR1 * -0.7117) + (SWIR2 * -0.4559)
 
-''' Requires at-satellite reflectance
-Coefficients derived from:
+''' Requires Reflectance
 Baig, M. H. A., Zhang, L., Shuai, T., & Tong, Q. (2015). Derivation of a tasselled cap transformation based on Landsat 8 at-satellite reflectance.
 Remote Sensing Letters, 5(5), 423-431. doi:10.1080/2150704X.915434
 '''
@@ -365,18 +364,16 @@ if Sensor == "Landsat 4-5 TM":
     indicesForm['Greenness'] = (Blue * -0.1603) + (Green * -0.2819) + (Red * -0.4934) + (NIR1 * 0.7940) + (SWIR1 * 0.0002) + (SWIR2 * -0.1446)
     indicesForm['Wetness'] = (Blue * 0.0315) + (Green * 0.2021) + (Red * 0.3102) + (NIR1 * 0.1594) + (SWIR1 * -0.6806) + (SWIR2 * -0.6109)
 
-''' Requires surface reflectance
-Coefficients derived from:
+''' Requires Reflectance
 Crist, E. P. (1985). A TM Tasseled Cap equivalent transformation for reflectance factor data. Remote Sensing of Environment, 17(3), 301-306. doi:10.1016/0034-4257(85)90102-6
-  '''    
+'''    
 
 if Sensor == "Landsat 7 ETM+":
     indicesForm['Greenness'] = (Blue * -0.3344) + (Green * -0.3544) + (Red * -0.4556) + (NIR1 * 0.6966) + (SWIR1 * -0.0242) + (SWIR2 * -0.2630)
     indicesForm['Brightness'] = (Blue * 0.3561) + (Green * 0.3972) + (Red * 0.3904) + (NIR1 * 0.6966) + (SWIR1 * 0.2286) + (SWIR2 * 0.1596)
     indicesForm['Wetness'] = (Blue * 0.2626) + (Green * 0.2141) + (Red * 0.0926) + (NIR1 * 0.0656) + (SWIR1 * -0.7629) + (SWIR2 * -0.5388)
 
-''' Requires at-satellite reflectance
-Coefficients derived from:
+''' Requires Reflectance
 Huang, C., Wylie, B., Yang, L., Homer, C., & Zylstra, G. (2002). Derivation of a tasselled cap transformation based on Landsat 7 at-satellite reflectance.
 International Journal of Remote Sensing, 23(8), 1741-1748. doi:10.1080/01431160110106113
 '''
@@ -386,20 +383,18 @@ if Sensor == "MODIS":
     indicesForm['Greenness'] = (Blue * -0.2129) + (Green * -0.2222) + (Red * -0.3399) + (NIR1 * 0.5952) + (NIR2 * 0.4617) + (SWIR1 * -0.1037) + (SWIR2 * -0.4600)
     indicesForm['Wetness'] = (Blue * 0.5065) + (Green * 0.4040) + (Red * 0.10839) + (NIR1 * 0.0912) + (NIR2 * -0.2410) + (SWIR1 * -0.4658) + (SWIR2 * -0.5306)
 
-''' Requires surface reflectance
-Coefficients derived from:
+''' Requires Reflectance
     Zhang, X. Z. X., Schaaf, C. B., Friedl, M. a., Strahler, a. H., Gao, F. G. F., & Hodges, J. C. F. (2002). 
 MODIS tasseled cap transformation and its utility. IEEE International Geoscience and Remote Sensing Symposium, 
 2(C), 1063-1065. doi:10.1109/IGARSS.2002.1025776
-  '''
+'''
 
 if Sensor == "Worldview 02":
     indicesForm['Brightness'] = (Coastal * -0.060436) + (Blue * 0.012147) + (Green *  0.125846) + (Yellow * 0.313039) + (Red *  0.412175) + (RedEdge * 0.482758) + (NIR1 * -0.160654) + (NIR2 * 0.673510)
     indicesForm['Greenness'] = (Coastal * -0.140191) + (Blue * -0.206224) + (Green * -0.215854) + (Yellow * -0.314441) + (Red * -0.410892) + (RedEdge * 0.095786) + (NIR1 * 0.600549) + (NIR2 * 0.503672)
     indicesForm['Wetness'] = (Coastal * -0.270951) + (Blue * -0.315708) + (Green * -0.317263) + (Yellow * -0.242544) + (Red * -0.256463) + (RedEdge * -0.096550) + (NIR1 * -0.742535) + (NIR2 * 0.202430)
     
-''' Requires surface reflectance
-Coefficients derived from:
+''' Requires Reflectance
     Yarbough, L. D., Navulur, K., & Ravi, R. (2014). Presentation of the Kauth-Thomas transform for Worldview-2 reflectance data.
 Remote Sensing Letters, 5(2), 131-138. doi:10.1080/2150704X.2014.885148
   '''
