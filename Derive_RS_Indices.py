@@ -87,31 +87,34 @@ WV_Disable = [
 top = Tk()
 top.title("Process Imagery")
 
-def cb_checked():
+def cbChecked():
     label['text'] = ''
 
 rowpos = 2
 colpos = 2    
 cb = list(range(len(indices)))
-cb_v = list(range(len(indices)))
-for ix, text in enumerate(indices):
+cbVar = list(range(len(indices)))
+for i, text in enumerate(indices):
     if colpos % 6 == 0:
         colpos = 2
         rowpos += 1
-    cb_v[ix] = Tkinter.IntVar()
-    cb[ix] = Tkinter.Checkbutton(top, text=text,
-        variable=cb_v[ix], command=cb_checked)
-    cb[ix].grid(row=rowpos, column=colpos, sticky=W, padx=4, pady=4)
+    cbVar[i] = Tkinter.IntVar()
+    cb[i] = Tkinter.Checkbutton(top, text=text,
+        variable=cbVar[i], command=cbChecked)
+    cb[i].grid(row=rowpos, column=colpos, sticky=W, padx=4, pady=4)
     colpos += 1
-    cb_v[ix].set(1)
+    cbVar[i].set(1)
 label = Tkinter.Label(top, width=5)
 label.grid(row=rowpos, column=colpos)
-cb_checked()
-w = Label(top, text="Sensor", font="Times 12 bold").grid(row=1,column=1, sticky=W)
+cbChecked()
+
+# Set Labels
+Label(top, text="Sensor", font="Times 12 bold").grid(row=1,column=1, sticky=W)
 Label(top, text="Indices", font="Times 12 bold").grid(row=1,column=2, sticky=W)
 Label(top, text="Input Stacked Image").grid(row=8,column=1, sticky=W)
 Label(top, text="Output Directory").grid(row=10,column=1, sticky=W)
 
+# Set Radiobuttons
 vSensor = StringVar()
 cTMETM = Radiobutton(top, text= "Landsat 1-3 MSS", variable = vSensor, value = "MSS").grid(row=2, column=1, pady=4, padx=4, sticky=W)
 cTMETM = Radiobutton(top, text= "Landsat 4-5 TM", variable = vSensor, value = "TM").grid(row=3, column=1, pady=4, padx=4, sticky=W)
@@ -122,38 +125,29 @@ cWV = Radiobutton(top, text= "Worldview 02", variable = vSensor, value = "WV").g
 
 def showstate(*args):
     if vSensor.get() == "WV":
-        for i in MSS_Disable:
-            cb_v[indices.index(i)].set(1)
-            cb[indices.index(i)].configure(state='normal')
-        for i in TM_ETM_OLI_MODIS_Disable:
-            cb_v[indices.index(i)].set(1)
+        for i in indices:
+            cbVar[indices.index(i)].set(1)
             cb[indices.index(i)].configure(state='normal')
         for i in WV_Disable:
-            cb_v[indices.index(i)].set(0)
+            cbVar[indices.index(i)].set(0)
             cb[indices.index(i)].configure(state='disabled')
     elif vSensor.get() == 'TM' or vSensor.get() == 'ETM' or vSensor.get() == 'MODIS' or vSensor.get() == 'OLI':
-        for i in WV_Disable:
-            cb_v[indices.index(i)].set(1)
-            cb[indices.index(i)].configure(state='normal')
-        for i in MSS_Disable:
-            cb_v[indices.index(i)].set(1)
+        for i in indices:
+            cbVar[indices.index(i)].set(1)
             cb[indices.index(i)].configure(state='normal')
         for i in TM_ETM_OLI_MODIS_Disable:
-            cb_v[indices.index(i)].set(0)
+            cbVar[indices.index(i)].set(0)
             cb[indices.index(i)].configure(state='disabled')
     elif vSensor.get() == 'MSS':
         for i in WV_Disable:
-            cb_v[indices.index(i)].set(1)
-            cb[indices.index(i)].configure(state='normal')
-        for i in TM_ETM_OLI_MODIS_Disable:
-            cb_v[indices.index(i)].set(1)
+            cbVar[indices.index(i)].set(1)
             cb[indices.index(i)].configure(state='normal')
         for i in MSS_Disable:
-            cb_v[indices.index(i)].set(0)
+            cbVar[indices.index(i)].set(0)
             cb[indices.index(i)].configure(state='disabled')
 
 def tcapshowstate(*args):
-    if cb_v[indices.index("Brightness")].get() or cb_v[indices.index("Greenness")].get() or cb_v[indices.index("Wetness")].get():
+    if cbVar[indices.index("Brightness")].get() or cbVar[indices.index("Greenness")].get() or cbVar[indices.index("Wetness")].get():
         if vSensor.get() == "MODIS" or vSensor.get() == "TM" or vSensor.get() == "WV" or vSensor.get() == "ETM" or vSensor.get() == "OLI":
             form["text"] = "Tasseled Cap Transformation for \n" + vSensor.get() + " requires Reflectance"
         if vSensor.get() == "MSS": 
@@ -165,9 +159,9 @@ form = Label(top, text="", font=("arial 9"))
 form.grid(row=6, column=2, columnspan=4, rowspan=2, sticky=N)
 
 vSensor.trace_variable("w", showstate)
-cb_v[indices.index("Brightness")].trace_variable("w", tcapshowstate)
-cb_v[indices.index("Greenness")].trace_variable("w", tcapshowstate)
-cb_v[indices.index("Wetness")].trace_variable("w", tcapshowstate)
+cbVar[indices.index("Brightness")].trace_variable("w", tcapshowstate)
+cbVar[indices.index("Greenness")].trace_variable("w", tcapshowstate)
+cbVar[indices.index("Wetness")].trace_variable("w", tcapshowstate)
 vSensor.trace_variable("w", tcapshowstate)
 vSensor.set("TM")
 
@@ -398,7 +392,7 @@ Remote Sensing Letters, 5(2), 131-138. doi:10.1080/2150704X.2014.885148
   '''
 
 def CalculateIndice(text, indice):
-    if cb_v[indices.index(text)].get():
+    if cbVar[indices.index(text)].get():
         print text
         indice.save(outPath + "/" + inRaster[:-4] + "_" + text + ".tif")
 
