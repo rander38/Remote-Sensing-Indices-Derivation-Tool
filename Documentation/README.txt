@@ -1,6 +1,6 @@
-# Derive Remote Sensing Indices
+## Remote Sensing Indices Derivation Tool
 
-Processes stacked raster file to calculate common remote sensing indices and export individual bands.
+Processes stacked raster file to calculate spectral remote sensing indices and export individual bands.
 
 Sensors supported:
 
@@ -30,7 +30,11 @@ Indices supported (sensor dependent):
 
 Requires arcpy and [Tkinter] (https://wiki.python.org/moin/TkInter). 
 
-Run the Python script, use the GUI to select the sensor, indices you wish to calculate, input raster, and output path.
+Run the Python script (RS_Indices_Derivation.py) and use the GUI to select the satellite sensor, indices to calculate, input raster, and output path.
+
+<p align="center">
+  <img src="https://github.com/rander38/Remote-Sensing-Indices-Derivation-Tool/blob/master/Documentation/GUI.png" alt="Interface"/>
+</p>
 
 **Input raster should be stacked as follows:**
 
@@ -60,7 +64,7 @@ Run the Python script, use the GUI to select the sensor, indices you wish to cal
 
 ### Future Plans
 
-* Additional Sensors/Indices (Recommendations are welcome)
+* Additional Sensors/Indices (Requests are welcome)
 * Remove arcpy in favor of GDAL
 * QGIS/ArcGIS Toolbox
 
@@ -76,7 +80,7 @@ based on Landsat 8 at-satellite reflectance. Remote Sensing Letters, 5(5), 423�
 
   Kauth, R., & Thomas, G. (1976). The tasselled cap--a graphic description of the spectral-temporal development of agricultural crops as seen by Landsat. LARS Symposia.
 
-  Qi, J., Chehbouni, A., Huete, A. R., Kerr, Y. H., & Sorooshian, S. (1994). A modified soil adjusted vegetation index. Remote Sensing of Environment, 48(2), 119–126. doi:10.1016/0034-4257(94)90134-1
+  Qi, J., Chehbouni, A., Huete, A. R., Kerr, Y. H., & Sorooshian, S. (1994). A modified soil adjusted vegetation index. Remote Sensing of Environment, 48(2), 119–126. doi:10.1016/0034-4257(94)90134
 
   Roy, D. P., Boschetti, L., & Trigg, S. N. (2006). Remote Sensing of Fire Severity: Assessing the Performance of the Normalized Burn Ratio. IEEE Geoscience and Remote Sensing Letters, 3(1), 112–116. doi:10.1109/LGRS.2005.858485
 
@@ -114,3 +118,5 @@ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+**Contact: ryananderson57@gmail.com**
