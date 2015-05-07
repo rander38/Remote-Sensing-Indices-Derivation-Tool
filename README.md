@@ -13,6 +13,8 @@ Sensors supported:
 
 Indices supported (sensor dependent):
 * [NDVI (Normalized Difference Vegetation Index)] (http://www.indexdatabase.de/db/i-single.php?id=58)
+* [EVI (Enhanced Vegetation Index] (http://www.indexdatabase.de/search/?s=evi)
+* [EVI2 (Enhanced Vegetation Index 2] (http://www.indexdatabase.de/search/?s=evi)
 * [NDMI (Normalized Difference Moisture Index)] (http://www.indexdatabase.de/db/i-single.php?id=56)
 * [NDSI (Normalized Difference Soil Index)] (http://www.exelisvis.com/portals/0/pdfs/envi/8_bands_Antonio_Wolf.pdf)
 * [NDWI (Normalized Difference Water Index)] (http://www.indexdatabase.de/db/i-single.php?id=60)
