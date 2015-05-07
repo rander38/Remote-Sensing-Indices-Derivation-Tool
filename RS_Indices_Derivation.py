@@ -41,6 +41,8 @@ outPath = r""
 
 indices = [
 'NDVI',
+'EVI',
+'EVI2',
 'NDMI',
 'NDSI',
 'NDWI',
@@ -308,36 +310,33 @@ if Sensor == "Landsat 4-5 TM" or Sensor == "Landsat 7 ETM+" or Sensor == "Landsa
     SWIR1 = Raster(outPath + "/"  + inRaster[:-4] + "_B" + SWIR1Band + ".tif")
     SWIR2 = Raster(outPath + "/"  + inRaster[:-4] + "_B" + SWIR2Band + ".tif")
 
-if Sensor == "Landsat 1-5 MSS":
-    indicesForm = {
-        'NDVI':(NIR1 - Red)/(NIR1 + Red),
-        'NDWI':(Green - NIR1)/(Green + NIR1),
-        'SAVI':((NIR1 - Red)/(NIR1 + Red + 0.5)) * (1 + 0.5),
-        'MSAVI2':(2 * NIR1 + 1 - SquareRoot((2 * NIR1 + 1)**2 - 8 * (NIR1-Red)))/2,
-        }
+#if Sensor == "Landsat 1-5 MSS":
+indicesForm = {
+    'NDVI':(NIR1 - Red)/(NIR1 + Red),
+    'EVI':2.5*((NIR1 - Red)/(NIR1 + 6 * Red - 7.5 * Blue + 1)),
+    'EVI2':2.4*((NIR1 - Red)/(NIR1 + Red + 1)),
+    'NDWI':(Green - NIR1)/(Green + NIR1),
+    'SAVI':((NIR1 - Red)/(NIR1 + Red + 0.5)) * (1 + 0.5),
+    'MSAVI2':(2 * NIR1 + 1 - SquareRoot((2 * NIR1 + 1)**2 - 8 * (NIR1-Red)))/2,
+    }
 
 ## Select which possible indices to calculate based on sensor
 if Sensor == "Landsat 4-5 TM" or Sensor == "Landsat 7 ETM+" or Sensor == "Landsat 8 OLI" or Sensor == "MODIS":
-    indicesForm = {
-        'NDVI':(NIR1 - Red)/(NIR1 + Red),
-        'NDMI':(NIR1 - SWIR1)/(NIR1 + SWIR1),
-        'NDWI':(Green - NIR1)/(Green + NIR1),
-        'MNDWI':(Green - SWIR1)/(Green + SWIR1),
-        'SAVI':((NIR1 - Red)/(NIR1 + Red + 0.5)) * (1 + 0.5),
-        'MSAVI2':(2 * NIR1 + 1 - SquareRoot((2 * NIR1 + 1)**2 - 8 * (NIR1-Red)))/2,
-        'NBR':(NIR1 - SWIR1)/(NIR1 - SWIR1),
-        'NMDI':(NIR1 - (SWIR1 - SWIR2))/(NIR1 + (SWIR1 - SWIR2))
-        }
+    indicesForm['NDMI'] = (NIR1 - SWIR1)/(NIR1 + SWIR1)
+    indicesForm['MNDWI'] = (Green - SWIR1)/(Green + SWIR1)
+    indicesForm['NBR'] = (NIR1 - SWIR1)/(NIR1 - SWIR1)
+    indicesForm['NMDI'] = (NIR1 - (SWIR1 - SWIR2))/(NIR1 + (SWIR1 - SWIR2))
 
-if Sensor == "Worldview 02":
-    indicesForm = {
-        'NDVI':(NIR1 - Red)/(NIR1 + Red),
-        'NDSI':(Green - Yellow)/(Green + Yellow),
-        'NDWI':(Green - NIR1)/(Green + NIR1),
-        'SAVI':((NIR1 - Red)/(NIR1 + Red + 0.5)) * (1 + 0.5),
-        'MSAVI2':(2 * NIR1 + 1 - SquareRoot((2 * NIR1 + 1)**2 - 8 * (NIR1 - Red)))/2,
-        'NHFD':(RedEdge - Coastal)/(RedEdge + Coastal)
-        }
+#if Sensor == "Worldview 02":
+#    indicesForm = {
+#        'NDVI':(NIR1 - Red)/(NIR1 + Red),
+#        'EVI':2.5*((NIR1 - Red)/(NIR1 + 6 * Red - 7.5 * Blue + 1)),
+#        'EVI2':2.4*((NIR1 - Red)/(NIR1 + Red + 1)),
+#
+#        'NDWI':(Green - NIR1)/(Green + NIR1),
+#        'SAVI':((NIR1 - Red)/(NIR1 + Red + 0.5)) * (1 + 0.5),
+#        'MSAVI2':(2 * NIR1 + 1 - SquareRoot((2 * NIR1 + 1)**2 - 8 * (NIR1 - Red)))/2,
+#        }
 
 ## Add Tasseled Cap Transformation with sensor specific coefficients
 if Sensor == "Landsat 1-5 MSS": 
@@ -391,6 +390,8 @@ MODIS tasseled cap transformation and its utility. IEEE International Geoscience
 '''
 
 if Sensor == "Worldview 02":
+    indicesForm['NHFD'] = (RedEdge - Coastal)/(RedEdge + Coastal)
+    indicesForm['NDSI'] = (Green - Yellow)/(Green + Yellow)
     indicesForm['Brightness'] = (Coastal * -0.060436) + (Blue * 0.012147) + (Green *  0.125846) + (Yellow * 0.313039) + (Red *  0.412175) + (RedEdge * 0.482758) + (NIR1 * -0.160654) + (NIR2 * 0.673510)
     indicesForm['Greenness'] = (Coastal * -0.140191) + (Blue * -0.206224) + (Green * -0.215854) + (Yellow * -0.314441) + (Red * -0.410892) + (RedEdge * 0.095786) + (NIR1 * 0.600549) + (NIR2 * 0.503672)
     indicesForm['Wetness'] = (Coastal * -0.270951) + (Blue * -0.315708) + (Green * -0.317263) + (Yellow * -0.242544) + (Red * -0.256463) + (RedEdge * -0.096550) + (NIR1 * -0.742535) + (NIR2 * 0.202430)
