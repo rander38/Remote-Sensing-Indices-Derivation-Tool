@@ -44,18 +44,18 @@ indices = [
 'EVI',
 'EVI2',
 'NDMI',
-'NDSI',
 'NDWI',
 'MNDWI',
 'SAVI',
 'MSAVI2',
 'NBR',
 'NMDI',
-'NHFD',
 'Brightness',
 'Greenness',
 'Wetness',
-'Yellowness'
+'Yellowness',
+'NHFD',
+'NDSI',
 ]
 
 MSS_Disable = [
