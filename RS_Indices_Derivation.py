@@ -41,15 +41,15 @@ outPath = r""
 
 indices = [
 'NDVI',
+'SAVI',
+'MSAVI2',
 'EVI',
 'EVI2',
 'NDMI',
+'NMDI',
 'NDWI',
 'MNDWI',
-'SAVI',
-'MSAVI2',
 'NBR',
-'NMDI',
 'Brightness',
 'Greenness',
 'Wetness',
