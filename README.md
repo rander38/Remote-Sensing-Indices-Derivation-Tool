@@ -12,19 +12,32 @@ Sensors supported:
 * MODIS Terra and Aqua
 
 Indices supported (sensor dependent):
+Vegetation Related Indices
 * [NDVI (Normalized Difference Vegetation Index)] (http://www.indexdatabase.de/db/i-single.php?id=58)
+* [SAVI (Soil Adjusted Vegetation Index)] (http://www.indexdatabase.de/db/i-single.php?id=87)
+* [MSAVI2 (Modified Soil Adjusted Vegetation Index 2)] (http://www.sciencedirect.com/science/article/pii/0034425794901341)
 * [EVI (Enhanced Vegetation Index)] (http://www.indexdatabase.de/search/?s=evi)
 * [EVI2 (Enhanced Vegetation Index 2)] (http://www.indexdatabase.de/search/?s=evi)
 * [NDMI (Normalized Difference Moisture Index)] (http://www.indexdatabase.de/db/i-single.php?id=56)
-* [NDSI (Normalized Difference Soil Index)] (http://www.exelisvis.com/portals/0/pdfs/envi/8_bands_Antonio_Wolf.pdf)
+* [NMDI (Normalized Multi-band Drought Index)] (http://onlinelibrary.wiley.com/doi/10.1029/2007GL031021/abstract)
+Water Indices
 * [NDWI (Normalized Difference Water Index)] (http://www.indexdatabase.de/db/i-single.php?id=60)
 * [MNDWI (Modified Normalized Difference Water Index)] (http://www.tandfonline.com/doi/abs/10.1080/01431160600589179)
-* [SAVI (Soil Adjusted Vegetation Index)] (http://www.indexdatabase.de/db/i-single.php?id=87)
-* [MSAVI2 (Modified Soil Adjusted Vegetation Index 2)] (http://www.sciencedirect.com/science/article/pii/0034425794901341)
+Geology Indices
+* [Clay Minerals Ratio] (http://library.dmr.go.th/library/TextBooks/10146.pdf)
+* [Ferrous Minerals Ratio] (http://library.dmr.go.th/library/TextBooks/10146.pdf)
+* [Iron Oxide Ratio] (https://scholar.google.com/scholar?cluster=2710721694487237686&hl=en&as_sdt=4005&sciodt=0,6)
+* [WV-II (World-View New Iron Index)]
+* [WV-SI (World-View Soil Index)] (http://www.exelisvis.com/portals/0/pdfs/envi/8_bands_Antonio_Wolf.pdf)
+Burn Indices
 * [NBR (Normalized Burn Ratio)] (http://www.indexdatabase.de/db/i-single.php?id=53)
-* [NMDI (Normalized Multi-band Drought Index)] (http://onlinelibrary.wiley.com/doi/10.1029/2007GL031021/abstract)
+* [BAI (Burn Area Index)] (http://www.tandfonline.com/doi/abs/10.1080/01431160210153129)
+Miscellaneous Indices
+* [NDBI (Normalized Difference Built-Up Index)] (http://www.tandfonline.com/doi/abs/10.1080/01431160304987)
 * [NHFD (Non-Homogenous Feature Difference (NHFD)] (http://www.exelisvis.com/portals/0/pdfs/envi/8_bands_Antonio_Wolf.pdf)
-* [Tasseled Cap Transformation - Brightness, Greenness, Wetness, Yellowness (MSS)] (http://docs.lib.purdue.edu/cgi/viewcontent.cgi?article=1160&context=lars_symp&sei-redir=1&referer=http%3A%2F%2Fscholar.google.com%2Fscholar%3Fhl%3Den%26q%3Dkauth%20and%20thomas#search=%22kauth%20thomas%22)
+* [NDSI (Normalized Difference Snow Index)] (http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=399618&tag=1)
+Tasseled Cap Transformation
+* [Brightness, Greenness, Wetness, Yellowness (MSS)] (http://docs.lib.purdue.edu/cgi/viewcontent.cgi?article=1160&context=lars_symp&sei-redir=1&referer=http%3A%2F%2Fscholar.google.com%2Fscholar%3Fhl%3Den%26q%3Dkauth%20and%20thomas#search=%22kauth%20thomas%22)
   * Reflectance required for TM, ETM+, OLI, WV02, and MODIS
   * Digital Number (DN) required for MSS
 
@@ -74,7 +87,11 @@ Run the Python script (RS_Indices_Derivation.py) and use the GUI to select the s
   Baig, M. H. A., Zhang, L., Shuai, T., & Tong, Q. (2015). Derivation of a tasselled cap transformation 
 based on Landsat 8 at-satellite reflectance. Remote Sensing Letters, 5(5), 423–431. doi:10.1080/2150704X.2014.915434
 
+  Chuvieco, E., Martín, M. P., & Palacios, A. (2002). Assessment of different spectral indices in the red-near-infrared spectral domain for burned land discrimination. International Journal of Remote Sensing, 23(23), 5103–5110. doi:10.1080/01431160210153129
+
   Crist, E. P. (1985). A TM Tasseled Cap equivalent transformation for reflectance factor data. Remote Sensing of Environment, 17(3), 301–306. doi:10.1016/0034-4257(85)90102-6
+  
+  Drury, S. (1987). Image Interpretation in Geology. London: Allen and Unwin.
   
   Huang, C., Wylie, B., Yang, L., Homer, C., & Zylstra, G. (2002). Derivation of a tasselled cap transformation based on Landsat 7 at-satellite reflectance. International Journal of Remote Sensing, 23(8), 1741–1748. doi:10.1080/01431160110106113
 
@@ -83,6 +100,8 @@ based on Landsat 8 at-satellite reflectance. Remote Sensing Letters, 5(5), 423�
   Kauth, R., & Thomas, G. (1976). The tasselled cap--a graphic description of the spectral-temporal development of agricultural crops as seen by Landsat. LARS Symposia.
 
   Qi, J., Chehbouni, A., Huete, A. R., Kerr, Y. H., & Sorooshian, S. (1994). A modified soil adjusted vegetation index. Remote Sensing of Environment, 48(2), 119–126. doi:10.1016/0034-4257(94)90134
+
+  Riggs, G. A., Hall, D. K., & Salomonson, V. V. (1994). A snow index for the Landsat Thematic Mapper and Moderate Resolution Imaging Spectroradiometer. In Proceedings of IGARSS ’94 - 1994 IEEE International Geoscience and Remote Sensing Symposium (Vol. 4, pp. 1942–1944). IEEE. doi:10.1109/IGARSS.1994.399618
 
   Roy, D. P., Boschetti, L., & Trigg, S. N. (2006). Remote Sensing of Fire Severity: Assessing the Performance of the Normalized Burn Ratio. IEEE Geoscience and Remote Sensing Letters, 3(1), 112–116. doi:10.1109/LGRS.2005.858485
 
@@ -93,6 +112,8 @@ based on Landsat 8 at-satellite reflectance. Remote Sensing Letters, 5(5), 423�
   Wilson, E. H., & Sader, S. A. (2002). Detection of forest harvest type using multiple dates of Landsat TM imagery. Remote Sensing of Environment, 80(3), 385–396. doi:10.1016/S0034-4257(01)00318-2
 
   Yarbrough, L. D., Navulur, K., & Ravi, R. (2014). Presentation of the Kauth–Thomas transform for WorldView-2 reflectance data. Remote Sensing Letters, 5(2), 131–138. doi:10.1080/2150704X.2014.885148
+
+  Zha, Y., Gao, J., & Ni, S. (2003). Use of normalized difference built-up index in automatically mapping urban areas from TM imagery. International Journal of Remote Sensing, 24(3), 583–594. doi:10.1080/01431160304987
 
   Zhang, X. Z. X., Schaaf, C. B., Friedl, M. a., Strahler, a. H., Gao, F. G. F., & Hodges, J. C. F. (2002). MODIS tasseled cap transformation and its utility. IEEE International Geoscience and Remote Sensing Symposium, 2(C), 1063–1065. doi:10.1109/IGARSS.2002.1025776
 
