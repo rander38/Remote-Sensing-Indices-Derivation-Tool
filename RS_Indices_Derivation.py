@@ -173,7 +173,7 @@ Label(top, text="Indices", font="Times 12 bold").grid(row=1,column=2, sticky=W)
 # Set Radiobuttons
 def rbChecked():
     label['text'] = ''
-    
+
 sensrowpos = 2
 rb = list(range(len(sensors)))
 vSensor = StringVar()
