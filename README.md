@@ -12,7 +12,9 @@ Sensors supported:
 * MODIS Terra and Aqua
 
 Indices supported (sensor dependent):
+
 Vegetation Related Indices
+
 * [NDVI (Normalized Difference Vegetation Index)] (http://www.indexdatabase.de/db/i-single.php?id=58)
 * [SAVI (Soil Adjusted Vegetation Index)] (http://www.indexdatabase.de/db/i-single.php?id=87)
 * [MSAVI2 (Modified Soil Adjusted Vegetation Index 2)] (http://www.sciencedirect.com/science/article/pii/0034425794901341)
@@ -20,23 +22,33 @@ Vegetation Related Indices
 * [EVI2 (Enhanced Vegetation Index 2)] (http://www.indexdatabase.de/search/?s=evi)
 * [NDMI (Normalized Difference Moisture Index)] (http://www.indexdatabase.de/db/i-single.php?id=56)
 * [NMDI (Normalized Multi-band Drought Index)] (http://onlinelibrary.wiley.com/doi/10.1029/2007GL031021/abstract)
+
 Water Indices
+
 * [NDWI (Normalized Difference Water Index)] (http://www.indexdatabase.de/db/i-single.php?id=60)
 * [MNDWI (Modified Normalized Difference Water Index)] (http://www.tandfonline.com/doi/abs/10.1080/01431160600589179)
+
 Geology Indices
+
 * [Clay Minerals Ratio] (http://library.dmr.go.th/library/TextBooks/10146.pdf)
 * [Ferrous Minerals Ratio] (http://library.dmr.go.th/library/TextBooks/10146.pdf)
 * [Iron Oxide Ratio] (https://scholar.google.com/scholar?cluster=2710721694487237686&hl=en&as_sdt=4005&sciodt=0,6)
-* [WV-II (World-View New Iron Index)]
+* [WV-II (World-View New Iron Index)] (http://www.exelisvis.com/portals/0/pdfs/envi/8_bands_Antonio_Wolf.pdf)
 * [WV-SI (World-View Soil Index)] (http://www.exelisvis.com/portals/0/pdfs/envi/8_bands_Antonio_Wolf.pdf)
+
 Burn Indices
+
 * [NBR (Normalized Burn Ratio)] (http://www.indexdatabase.de/db/i-single.php?id=53)
 * [BAI (Burn Area Index)] (http://www.tandfonline.com/doi/abs/10.1080/01431160210153129)
+
 Miscellaneous Indices
+
 * [NDBI (Normalized Difference Built-Up Index)] (http://www.tandfonline.com/doi/abs/10.1080/01431160304987)
 * [NHFD (Non-Homogenous Feature Difference (NHFD)] (http://www.exelisvis.com/portals/0/pdfs/envi/8_bands_Antonio_Wolf.pdf)
 * [NDSI (Normalized Difference Snow Index)] (http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=399618&tag=1)
+
 Tasseled Cap Transformation
+
 * [Brightness, Greenness, Wetness, Yellowness (MSS)] (http://docs.lib.purdue.edu/cgi/viewcontent.cgi?article=1160&context=lars_symp&sei-redir=1&referer=http%3A%2F%2Fscholar.google.com%2Fscholar%3Fhl%3Den%26q%3Dkauth%20and%20thomas#search=%22kauth%20thomas%22)
   * Reflectance required for TM, ETM+, OLI, WV02, and MODIS
   * Digital Number (DN) required for MSS
