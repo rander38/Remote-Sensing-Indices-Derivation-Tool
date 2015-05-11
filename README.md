@@ -2,7 +2,7 @@
 
 Processes stacked raster file to calculate spectral remote sensing indices and export individual bands.
 
-Sensors supported:
+**Sensors supported:**
 
 * Landsat 1-5 MSS
 * Landsat 4-5 TM
@@ -11,7 +11,7 @@ Sensors supported:
 * Worldview-02
 * MODIS Terra and Aqua
 
-Indices supported (sensor dependent):
+**Indices supported (sensor dependent):**
 
 Vegetation Related Indices
 
