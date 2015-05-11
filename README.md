@@ -47,9 +47,9 @@ Miscellaneous Indices
 * [NHFD (Non-Homogenous Feature Difference (NHFD)] (http://www.exelisvis.com/portals/0/pdfs/envi/8_bands_Antonio_Wolf.pdf)
 * [NDSI (Normalized Difference Snow Index)] (http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=399618&tag=1)
 
-Tasseled Cap Transformation
+[Tasseled Cap Transformation] (http://docs.lib.purdue.edu/cgi/viewcontent.cgi?article=1160&context=lars_symp&sei-redir=1&referer=http%3A%2F%2Fscholar.google.com%2Fscholar%3Fhl%3Den%26q%3Dkauth%20and%20thomas#search=%22kauth%20thomas%22)
 
-* [Brightness, Greenness, Wetness, Yellowness (MSS)] (http://docs.lib.purdue.edu/cgi/viewcontent.cgi?article=1160&context=lars_symp&sei-redir=1&referer=http%3A%2F%2Fscholar.google.com%2Fscholar%3Fhl%3Den%26q%3Dkauth%20and%20thomas#search=%22kauth%20thomas%22)
+* Brightness, Greenness, Wetness, Yellowness (MSS) 
   * Reflectance required for TM, ETM+, OLI, WV02, and MODIS
   * Digital Number (DN) required for MSS
 
