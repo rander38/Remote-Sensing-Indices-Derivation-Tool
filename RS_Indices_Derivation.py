@@ -49,29 +49,42 @@ indices = [
 'NMDI',
 'NDWI',
 'MNDWI',
+'Clay',
+'Ferrous',
+'Iron Oxide',
+'WV-II',
+'WV-SI',
 'NBR',
+'BAI',
+'NDBI',
+'NHFD',
+'NDSI',
 'Brightness',
 'Greenness',
 'Wetness',
 'Yellowness',
-'NHFD',
-'NDSI',
 ]
 
+
 MSS_Disable = [
-'NDSI',
 'NHFD',
 'NDMI',
 'MNDWI',
 'NBR',
 'NMDI',
-'Wetness'
+'Wetness',
+'Clay',
+'Ferrous',
+'WV-II',
+'WV-SI',
+'NDBI'
 ]
 
 TM_ETM_OLI_MODIS_Disable = [
-'NDSI',
 'NHFD',
-'Yellowness'
+'Yellowness',
+'WV-II',
+'WV-SI',
 ]
 
 WV_Disable = [
@@ -98,13 +111,50 @@ top.title("Process Imagery")
 def cbChecked():
     label['text'] = ''
 
-rowpos = 2
+def tcapshowstate(*args):
+    if cbVar[indices.index("Brightness")].get() or cbVar[indices.index("Greenness")].get() or cbVar[indices.index("Wetness")].get():
+        if vSensor.get() == "MODIS" or vSensor.get() == "Landsat 4-5 TM" or vSensor.get() == "Worldview 02" or vSensor.get() == "Landsat 7 ETM+" or vSensor.get() == "Landsat 8 OLI":
+            form["text"] = "(Requires Reflectance)"
+        if vSensor.get() == "Landsat 1-5 MSS": 
+            form["text"] = "(Requires Digital Number (DN))"
+    else:
+        form["text"] = ""
+
+rowpos = 3
 colpos = 2    
 cb = list(range(len(indices)))
 cbVar = list(range(len(indices)))
+Label(top, text="Vegetation Indices", font="Times 10").grid(row=2,column=2, columnspan=3, sticky=W)
 for i, text in enumerate(indices):
     if colpos % 6 == 0:
         colpos = 2
+        rowpos += 1
+    if text == 'NDWI':
+        colpos = 2
+        rowpos += 1
+        Label(top, text="Water Indices", font="Times 10").grid(row=rowpos,column=colpos, columnspan=3, sticky=W)
+        rowpos += 1
+    if text == 'Clay':
+        colpos = 2
+        rowpos += 1
+        Label(top, text="Geology Indices", font="Times 10").grid(row=rowpos,column=colpos, columnspan=3, sticky=W)
+        rowpos += 1
+    if text == 'NBR':
+        colpos = 2
+        rowpos += 1
+        Label(top, text="Burn Indices", font="Times 10").grid(row=rowpos,column=colpos, columnspan=3, sticky=W)
+        rowpos += 1
+    if text == 'NDBI':
+        colpos = 2
+        rowpos += 1
+        Label(top, text="Miscellaneous Indices", font="Times 10").grid(row=rowpos,column=colpos, columnspan=3, sticky=W)
+        rowpos += 1
+    if text == 'Brightness':
+        colpos = 2
+        rowpos += 1
+        Label(top, text="Tasseled Cap Transformation Indices", font="Times 10").grid(row=rowpos,column=colpos, columnspan=3, sticky=W)
+        form = Label(top, text="", font="Times 10")
+        form.grid(row=rowpos, column=4, columnspan=2, sticky=W)
         rowpos += 1
     cbVar[i] = IntVar()
     cb[i] = Checkbutton(top, text=text, variable=cbVar[i], command=cbChecked)
@@ -114,25 +164,23 @@ for i, text in enumerate(indices):
 label = Label(top, width=5)
 label.grid(row=rowpos, column=colpos)
 cbChecked()
+rowpos += 1
 
 # Set Labels
 Label(top, text="Sensor", font="Times 12 bold").grid(row=1,column=1, sticky=W)
 Label(top, text="Indices", font="Times 12 bold").grid(row=1,column=2, sticky=W)
-Label(top, text="Input Stacked Image").grid(row=8,column=1, sticky=W)
-Label(top, text="Output Directory").grid(row=10,column=1, sticky=W)
 
 # Set Radiobuttons
 def rbChecked():
     label['text'] = ''
     
-colpos = 1
-rowpos = 2
+sensrowpos = 2
 rb = list(range(len(sensors)))
 vSensor = StringVar()
 for i, sensor in enumerate(sensors):
     rb[i] = Radiobutton(top, text=sensor, variable=vSensor, value=sensor)
-    rb[i].grid(row=rowpos, column=colpos, pady=4, padx=7, sticky=W)
-    rowpos += 1
+    rb[i].grid(row=sensrowpos, column=1, pady=4, padx=7, sticky=W)
+    sensrowpos += 1
 rbChecked()
 
 ## Disable or enable checkbuttons based on sensor selection
@@ -159,18 +207,6 @@ def showstate(*args):
             cbVar[indices.index(i)].set(0)
             cb[indices.index(i)].configure(state='disabled')
 
-def tcapshowstate(*args):
-    if cbVar[indices.index("Brightness")].get() or cbVar[indices.index("Greenness")].get() or cbVar[indices.index("Wetness")].get():
-        if vSensor.get() == "MODIS" or vSensor.get() == "Landsat 4-5 TM" or vSensor.get() == "Worldview 02" or vSensor.get() == "Landsat 7 ETM+" or vSensor.get() == "Landsat 8 OLI":
-            form["text"] = "Tasseled Cap Transformation for \n" + vSensor.get() + " requires Reflectance"
-        if vSensor.get() == "Landsat 1-5 MSS": 
-            form["text"] = "Tasseled Cap Transformation for \n" + vSensor.get() + " requires Digital Number (DN)"
-    else:
-        form["text"] = ""
-
-form = Label(top, text="", font=("arial 9"))
-form.grid(row=6, column=2, columnspan=4, rowspan=2, sticky=N)
-
 vSensor.trace_variable("w", showstate)
 cbVar[indices.index("Brightness")].trace_variable("w", tcapshowstate)
 cbVar[indices.index("Greenness")].trace_variable("w", tcapshowstate)
@@ -180,11 +216,13 @@ vSensor.set("Landsat 4-5 TM")
 
 top.resizable(0,0) # Disable window resizing
 
+Label(top, text="Input Stacked Image").grid(row=rowpos,column=1, sticky=W)
+rowpos += 1
 indirVar = StringVar()
 indirEntry = Entry(top, textvariable = indirVar, width=50)
 indirEntry.delete(0, END)
 indirEntry.insert(INSERT, inPath)
-indirEntry.grid(row=9,column=0, sticky=W, columnspan=8, padx=5)
+indirEntry.grid(row=rowpos,column=0, sticky=W, columnspan=8, padx=5)
 
 def indirbrowser():
     indir1 = askopenfilename(parent=top, title="Select Stacked Input Image")
@@ -192,13 +230,16 @@ def indirbrowser():
         indirEntry.delete(0, END)
         indirEntry.insert(INSERT, indir1)
 
-indirButton = Button(top, text = 'Browse', command=indirbrowser).grid(row=9, column=5, pady=2, padx=2)
+indirButton = Button(top, text = 'Browse', command=indirbrowser).grid(row=rowpos, column=4, pady=2, padx=2)
+rowpos += 1
 
+Label(top, text="Output Directory").grid(row=rowpos,column=1, sticky=W)
+rowpos += 1
 outdirVar = StringVar()
 outdirEntry = Entry(top, textvariable = outdirVar, width=50)
 outdirEntry.delete(0, END)
 outdirEntry.insert(INSERT, outPath)
-outdirEntry.grid(row=11, column=1, sticky=W, columnspan=8, padx=5)
+outdirEntry.grid(row=rowpos, column=1, sticky=W, columnspan=8, padx=5)
 
 def outdirbrowser():
     outdir1 = askdirectory(parent=top, title="Select Root Output Directory", mustexist=1)
@@ -206,12 +247,13 @@ def outdirbrowser():
         outdirEntry.delete(0, END)
         outdirEntry.insert(INSERT, outdir1)
 
-outdirButton = Button(top, text = 'Browse', command=outdirbrowser).grid(row=11, column=5, pady=2, padx=2)
+outdirButton = Button(top, text = 'Browse', command=outdirbrowser).grid(row=rowpos, column=4, pady=2, padx=2)
+rowpos += 1
 
 ## Run Button
 def callback():
     top.destroy()
-Button(top, text = 'Run', command=callback).grid(row=12,column=4, pady=4, padx=4)
+Button(top, text = 'Run', command=callback).grid(row=rowpos,column=3, pady=4, padx=4)
 
 ## Quit Button
 def quitbutton():
@@ -219,7 +261,7 @@ def quitbutton():
         top.destroy()
         raise SystemExit(0)
 
-Button(top, text='Quit', command=quitbutton).grid(row=12, column=3, pady=4, padx=4)    
+Button(top, text='Quit', command=quitbutton).grid(row=rowpos, column=2, pady=4, padx=4)    
 
 top.mainloop()
 
@@ -286,6 +328,7 @@ if Sensor == "Worldview 02":
 print "Exporting Bands"
 band = 0
 for bandfile in bands:
+#    if not (outPath and os.path.exists(outPath)): os.makedirs(outPath):
     band += 1
     outBand = Raster(bandfile) * 1.0
     outBand.save(outPath + "/" + inRaster[:-4] + "_B" + str(band) + ".tif")
@@ -318,6 +361,8 @@ indicesForm = {
     'NDWI':(Green - NIR1)/(Green + NIR1),
     'SAVI':((NIR1 - Red)/(NIR1 + Red + 0.5)) * (1 + 0.5),
     'MSAVI2':(2 * NIR1 + 1 - SquareRoot((2 * NIR1 + 1)**2 - 8 * (NIR1-Red)))/2,
+    'Iron Oxide':(Red/Blue),
+    'BAI':1/((0.1-Red)**2 + (0.06 - NIR1)**2)
     }
 
 ## Add sensor specific indices
@@ -326,6 +371,10 @@ if Sensor == "Landsat 4-5 TM" or Sensor == "Landsat 7 ETM+" or Sensor == "Landsa
     indicesForm['MNDWI'] = (Green - SWIR1)/(Green + SWIR1)
     indicesForm['NBR'] = (NIR1 - SWIR1)/(NIR1 - SWIR1)
     indicesForm['NMDI'] = (NIR1 - (SWIR1 - SWIR2))/(NIR1 + (SWIR1 - SWIR2))
+    indicesForm['Clay'] = (SWIR1/SWIR2)
+    IndicesForm['Ferrous'] = (SWIR1/NIR1)
+    IndicesForm['NDBI'] = (SWIR1 - NIR1)/(SWIR1 + NIR1)
+    IndicesForm['NDSI'] = (Green - NIR1)/(Green + NIR1)
 
 ## Add Tasseled Cap Transformation with sensor specific coefficients
 if Sensor == "Landsat 1-5 MSS": 
@@ -384,7 +433,9 @@ if Sensor == "Worldview 02":
     indicesForm['Brightness'] = (Coastal * -0.060436) + (Blue * 0.012147) + (Green *  0.125846) + (Yellow * 0.313039) + (Red *  0.412175) + (RedEdge * 0.482758) + (NIR1 * -0.160654) + (NIR2 * 0.673510)
     indicesForm['Greenness'] = (Coastal * -0.140191) + (Blue * -0.206224) + (Green * -0.215854) + (Yellow * -0.314441) + (Red * -0.410892) + (RedEdge * 0.095786) + (NIR1 * 0.600549) + (NIR2 * 0.503672)
     indicesForm['Wetness'] = (Coastal * -0.270951) + (Blue * -0.315708) + (Green * -0.317263) + (Yellow * -0.242544) + (Red * -0.256463) + (RedEdge * -0.096550) + (NIR1 * -0.742535) + (NIR2 * 0.202430)
-    
+    indicesForm['WV-II'] = (Green * Yellow)/(Blue * 1000)
+    indicesForm['WV-SI'] = (Green - Yellow)/(Green + Yellow)    
+
 ''' Requires Reflectance
     Yarbough, L. D., Navulur, K., & Ravi, R. (2014). Presentation of the Kauth-Thomas transform for Worldview-2 reflectance data.
 Remote Sensing Letters, 5(2), 131-138. doi:10.1080/2150704X.2014.885148
@@ -397,6 +448,6 @@ def CalculateIndice(text, indice):
 
 for key,value in indicesForm.iteritems():
     CalculateIndice(key,value)
-    
+
 endTime = time.time() - startTime
 print "Completed in", ("%.2f" % endTime), 'seconds.'
