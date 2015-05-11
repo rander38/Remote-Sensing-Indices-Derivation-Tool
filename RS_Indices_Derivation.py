@@ -183,32 +183,23 @@ for i, sensor in enumerate(sensors):
     sensrowpos += 1
 rbChecked()
 
-def disable(disableList):
+def disable(sensor, disableList):
+    if vSensor.get() == sensor:
+        for i in indices:
+            cbVar[indices.index(i)].set(1)
+            cb[indices.index(i)].configure(state='normal')
+        for i in disableList:
+            cbVar[indices.index(i)].set(0)
+            cb[indices.index(i)].configure(state='disabled')
     
-
 ## Disable or enable checkbuttons based on sensor selection
 def showstate(*args):
-    if vSensor.get() == "Worldview 02":
-        for i in indices:
-            cbVar[indices.index(i)].set(1)
-            cb[indices.index(i)].configure(state='normal')
-        for i in WV_Disable:
-            cbVar[indices.index(i)].set(0)
-            cb[indices.index(i)].configure(state='disabled')
-    elif vSensor.get() == "Landsat 4-5 TM" or vSensor.get() == "Landsat 7 ETM+" or vSensor.get() == 'MODIS' or vSensor.get() == "Landsat 8 OLI":
-        for i in indices:
-            cbVar[indices.index(i)].set(1)
-            cb[indices.index(i)].configure(state='normal')
-        for i in TM_ETM_OLI_MODIS_Disable:
-            cbVar[indices.index(i)].set(0)
-            cb[indices.index(i)].configure(state='disabled')
-    elif vSensor.get() == "Landsat 1-5 MSS":
-        for i in indices:
-            cbVar[indices.index(i)].set(1)
-            cb[indices.index(i)].configure(state='normal')
-        for i in MSS_Disable:
-            cbVar[indices.index(i)].set(0)
-            cb[indices.index(i)].configure(state='disabled')
+    disable("Worldview 02", WV_Disable)
+    disable("Landsat 4-5 TM", TM_ETM_OLI_MODIS_Disable)
+    disable("Landsat 7 ETM+", TM_ETM_OLI_MODIS_Disable)
+    disable("Landsat 8 OLI", TM_ETM_OLI_MODIS_Disable)
+    disable("MODIS", TM_ETM_OLI_MODIS_Disable)
+    disable("Landsat 1-5 MSS", MSS_Disable)
 
 vSensor.trace_variable("w", showstate)
 cbVar[indices.index("Brightness")].trace_variable("w", tcapshowstate)
