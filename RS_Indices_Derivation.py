@@ -35,11 +35,12 @@ gp = arcgisscripting.create(10.1)
 arcpy.CheckOutExtension("spatial")
 arcpy.env.overwriteOutput = 1
 
-## Set input stacked image and output directory
+## Set input stacked image and output directory if desired
 inPath = r""
 outPath = r""
 
 indices = [
+## Vegetatoion
 'NDVI',
 'SAVI',
 'MSAVI2',
@@ -47,24 +48,28 @@ indices = [
 'EVI2',
 'NDMI',
 'NMDI',
+## Water
 'NDWI',
 'MNDWI',
+## Geology
 'Clay',
 'Ferrous',
 'Iron Oxide',
-'WV-II',
-'WV-SI',
+'WVII',
+'WVSI',
+# Burn
 'NBR',
 'BAI',
+## Miscellaneous
 'NDBI',
 'NHFD',
 'NDSI',
+## Tasseled Cap
 'Brightness',
 'Greenness',
 'Wetness',
 'Yellowness',
 ]
-
 
 MSS_Disable = [
 'NHFD',
@@ -75,16 +80,16 @@ MSS_Disable = [
 'Wetness',
 'Clay',
 'Ferrous',
-'WV-II',
-'WV-SI',
+'WVII',
+'WVSI',
 'NDBI'
 ]
 
 TM_ETM_OLI_MODIS_Disable = [
 'NHFD',
 'Yellowness',
-'WV-II',
-'WV-SI',
+'WVII',
+'WVSI',
 ]
 
 WV_Disable = [
@@ -92,7 +97,10 @@ WV_Disable = [
 'MNDWI',
 'NBR',
 'NMDI',
-'Yellowness'
+'Yellowness',
+'Clay',
+'Ferrous',
+'NDBI'
 ]
 
 sensors = [
@@ -120,8 +128,16 @@ def tcapshowstate(*args):
     else:
         form["text"] = ""
 
+def sectionBreak(index, title):
+    if text == index:
+        global rowpos, colpos
+        colpos = 2
+        rowpos += 1
+        Label(top, text=title, font="Times 10").grid(row=rowpos,column=colpos, columnspan=3, sticky=W)
+        rowpos += 1
+
 rowpos = 3
-colpos = 2    
+colpos = 2
 cb = list(range(len(indices)))
 cbVar = list(range(len(indices)))
 Label(top, text="Vegetation Indices", font="Times 10").grid(row=2,column=2, columnspan=3, sticky=W)
@@ -129,26 +145,10 @@ for i, text in enumerate(indices):
     if colpos % 6 == 0:
         colpos = 2
         rowpos += 1
-    if text == 'NDWI':
-        colpos = 2
-        rowpos += 1
-        Label(top, text="Water Indices", font="Times 10").grid(row=rowpos,column=colpos, columnspan=3, sticky=W)
-        rowpos += 1
-    if text == 'Clay':
-        colpos = 2
-        rowpos += 1
-        Label(top, text="Geology Indices", font="Times 10").grid(row=rowpos,column=colpos, columnspan=3, sticky=W)
-        rowpos += 1
-    if text == 'NBR':
-        colpos = 2
-        rowpos += 1
-        Label(top, text="Burn Indices", font="Times 10").grid(row=rowpos,column=colpos, columnspan=3, sticky=W)
-        rowpos += 1
-    if text == 'NDBI':
-        colpos = 2
-        rowpos += 1
-        Label(top, text="Miscellaneous Indices", font="Times 10").grid(row=rowpos,column=colpos, columnspan=3, sticky=W)
-        rowpos += 1
+    sectionBreak("NDWI", "Water Indices")
+    sectionBreak("Clay", "Geology Indices")
+    sectionBreak("NBR", "Burn Indices")
+    sectionBreak("NDBI", "Miscellaneous Indices")
     if text == 'Brightness':
         colpos = 2
         rowpos += 1
@@ -182,6 +182,9 @@ for i, sensor in enumerate(sensors):
     rb[i].grid(row=sensrowpos, column=1, pady=4, padx=7, sticky=W)
     sensrowpos += 1
 rbChecked()
+
+def disable(disableList):
+    
 
 ## Disable or enable checkbuttons based on sensor selection
 def showstate(*args):
@@ -328,6 +331,7 @@ if Sensor == "Worldview 02":
 print "Exporting Bands"
 band = 0
 for bandfile in bands:
+#    if not (outPath and os.path.exists(outPath)): os.makedirs(outPath):
     band += 1
     outBand = Raster(bandfile) * 1.0
     outBand.save(outPath + "/" + inRaster[:-4] + "_B" + str(band) + ".tif")
@@ -361,19 +365,19 @@ indicesForm = {
     'SAVI':((NIR1 - Red)/(NIR1 + Red + 0.5)) * (1 + 0.5),
     'MSAVI2':(2 * NIR1 + 1 - SquareRoot((2 * NIR1 + 1)**2 - 8 * (NIR1-Red)))/2,
     'Iron Oxide':(Red/Blue),
-    'BAI':1/((0.1-Red)**2 + (0.06 - NIR1)**2)
+    'BAI':1/((0.1-Red)**2 + (0.06 - NIR1)**2),
+    'NDSI':(Green - NIR1)/(Green + NIR1)
     }
 
 ## Add sensor specific indices
 if Sensor == "Landsat 4-5 TM" or Sensor == "Landsat 7 ETM+" or Sensor == "Landsat 8 OLI" or Sensor == "MODIS":
     indicesForm['NDMI'] = (NIR1 - SWIR1)/(NIR1 + SWIR1)
     indicesForm['MNDWI'] = (Green - SWIR1)/(Green + SWIR1)
-    indicesForm['NBR'] = (NIR1 - SWIR1)/(NIR1 - SWIR1)
+    indicesForm['NBR'] = (NIR1 - SWIR1)/(NIR1 + SWIR1)
     indicesForm['NMDI'] = (NIR1 - (SWIR1 - SWIR2))/(NIR1 + (SWIR1 - SWIR2))
     indicesForm['Clay'] = (SWIR1/SWIR2)
     indicesForm['Ferrous'] = (SWIR1/NIR1)
     indicesForm['NDBI'] = (SWIR1 - NIR1)/(SWIR1 + NIR1)
-    indicesForm['NDSI'] = (Green - NIR1)/(Green + NIR1)
 
 ## Add Tasseled Cap Transformation with sensor specific coefficients
 if Sensor == "Landsat 1-5 MSS": 
@@ -428,12 +432,11 @@ MODIS tasseled cap transformation and its utility. IEEE International Geoscience
 
 if Sensor == "Worldview 02":
     indicesForm['NHFD'] = (RedEdge - Coastal)/(RedEdge + Coastal)
-    indicesForm['NDSI'] = (Green - Yellow)/(Green + Yellow)
     indicesForm['Brightness'] = (Coastal * -0.060436) + (Blue * 0.012147) + (Green *  0.125846) + (Yellow * 0.313039) + (Red *  0.412175) + (RedEdge * 0.482758) + (NIR1 * -0.160654) + (NIR2 * 0.673510)
     indicesForm['Greenness'] = (Coastal * -0.140191) + (Blue * -0.206224) + (Green * -0.215854) + (Yellow * -0.314441) + (Red * -0.410892) + (RedEdge * 0.095786) + (NIR1 * 0.600549) + (NIR2 * 0.503672)
     indicesForm['Wetness'] = (Coastal * -0.270951) + (Blue * -0.315708) + (Green * -0.317263) + (Yellow * -0.242544) + (Red * -0.256463) + (RedEdge * -0.096550) + (NIR1 * -0.742535) + (NIR2 * 0.202430)
-    indicesForm['WV-II'] = (Green * Yellow)/(Blue * 1000)
-    indicesForm['WV-SI'] = (Green - Yellow)/(Green + Yellow)    
+    indicesForm['WVII'] = (Green * Yellow)/(Blue * 1000)
+    indicesForm['WVSI'] = (Green - Yellow)/(Green + Yellow)    
 
 ''' Requires Reflectance
     Yarbough, L. D., Navulur, K., & Ravi, R. (2014). Presentation of the Kauth-Thomas transform for Worldview-2 reflectance data.
