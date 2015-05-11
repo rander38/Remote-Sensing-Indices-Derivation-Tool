@@ -60,7 +60,7 @@ Requires arcpy and [Tkinter] (https://wiki.python.org/moin/TkInter).
 Run the Python script (RS_Indices_Derivation.py) and use the GUI to select the satellite sensor, indices to calculate, input raster, and output path.
 
 <p align="center">
-  <img src="https://github.com/rander38/Remote-Sensing-Indices-Derivation-Tool/blob/master/Documentation/GUI1.png" alt="Interface"/>
+  <img src="https://github.com/rander38/Remote-Sensing-Indices-Derivation-Tool/blob/master/Documentation/GUI.png" alt="Interface"/>
 </p>
 
 **Input raster should be stacked as follows:**
