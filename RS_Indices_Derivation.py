@@ -328,7 +328,6 @@ if Sensor == "Worldview 02":
 print "Exporting Bands"
 band = 0
 for bandfile in bands:
-#    if not (outPath and os.path.exists(outPath)): os.makedirs(outPath):
     band += 1
     outBand = Raster(bandfile) * 1.0
     outBand.save(outPath + "/" + inRaster[:-4] + "_B" + str(band) + ".tif")
