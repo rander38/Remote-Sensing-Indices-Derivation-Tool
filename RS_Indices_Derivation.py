@@ -371,9 +371,9 @@ if Sensor == "Landsat 4-5 TM" or Sensor == "Landsat 7 ETM+" or Sensor == "Landsa
     indicesForm['NBR'] = (NIR1 - SWIR1)/(NIR1 - SWIR1)
     indicesForm['NMDI'] = (NIR1 - (SWIR1 - SWIR2))/(NIR1 + (SWIR1 - SWIR2))
     indicesForm['Clay'] = (SWIR1/SWIR2)
-    IndicesForm['Ferrous'] = (SWIR1/NIR1)
-    IndicesForm['NDBI'] = (SWIR1 - NIR1)/(SWIR1 + NIR1)
-    IndicesForm['NDSI'] = (Green - NIR1)/(Green + NIR1)
+    indicesForm['Ferrous'] = (SWIR1/NIR1)
+    indicesForm['NDBI'] = (SWIR1 - NIR1)/(SWIR1 + NIR1)
+    indicesForm['NDSI'] = (Green - NIR1)/(Green + NIR1)
 
 ## Add Tasseled Cap Transformation with sensor specific coefficients
 if Sensor == "Landsat 1-5 MSS": 
