@@ -36,8 +36,8 @@ arcpy.CheckOutExtension("spatial")
 arcpy.env.overwriteOutput = 1
 
 ## Set input stacked image and output directory if desired
-inPath = r""
-outPath = r""
+inPath = r"G:\Imagery Processing\TM\TM.tif"
+outPath = r"G:\Imagery Processing\TM\Processed"
 
 indices = [
 ## Vegetatoion
@@ -136,15 +136,18 @@ def sectionBreak(index, title):
         Label(top, text=title, font="Times 10").grid(row=rowpos,column=colpos, columnspan=3, sticky=W)
         rowpos += 1
 
-rowpos = 3
+exVar = IntVar()
+ex = Checkbutton(top, text="Export Individual Bands", variable=exVar).grid(row=1, column=4, sticky=W, columnspan=2, padx=4, pady=4)
+
+rowpos = 1
 colpos = 2
 cb = list(range(len(indices)))
 cbVar = list(range(len(indices)))
-Label(top, text="Vegetation Indices", font="Times 10").grid(row=2,column=2, columnspan=3, sticky=W)
 for i, text in enumerate(indices):
     if colpos % 6 == 0:
         colpos = 2
         rowpos += 1
+    sectionBreak("NDVI", "Vegetation Indices")
     sectionBreak("NDWI", "Water Indices")
     sectionBreak("Clay", "Geology Indices")
     sectionBreak("NBR", "Burn Indices")
@@ -152,7 +155,7 @@ for i, text in enumerate(indices):
     if text == 'Brightness':
         colpos = 2
         rowpos += 1
-        Label(top, text="Tasseled Cap Transformation Indices", font="Times 10").grid(row=rowpos,column=colpos, columnspan=3, sticky=W)
+        Label(top, text="Tasseled Cap Transformation", font="Times 10").grid(row=rowpos,column=colpos, columnspan=3, sticky=W)
         form = Label(top, text="", font="Times 10")
         form.grid(row=rowpos, column=4, columnspan=2, sticky=W)
         rowpos += 1
@@ -160,7 +163,7 @@ for i, text in enumerate(indices):
     cb[i] = Checkbutton(top, text=text, variable=cbVar[i], command=cbChecked)
     cb[i].grid(row=rowpos, column=colpos, sticky=W, padx=4, pady=4)
     colpos += 1
-    cbVar[i].set(1)
+#    cbVar[i].set(1)
 label = Label(top, width=5)
 label.grid(row=rowpos, column=colpos)
 cbChecked()
@@ -254,7 +257,6 @@ def quitbutton():
         print "Processing cancelled"
         top.destroy()
         raise SystemExit(0)
-
 Button(top, text='Quit', command=quitbutton).grid(row=rowpos, column=2, pady=4, padx=4)    
 
 top.mainloop()
@@ -263,89 +265,69 @@ top.mainloop()
 Sensor = vSensor.get()
 inPath = indirVar.get()
 outPath = outdirVar.get()
+arcpy.env.workspace = inPath
 
 ## Create output directory if it doesn't exist
 if not (outPath and os.path.exists(outPath)): os.makedirs(outPath)
 
-arcpy.env.workspace = inPath
-
-inPath, inRaster = os.path.split(inPath)
+pathRoot, inRaster = os.path.split(inPath)
 print "Processing", inRaster
 
-bands = arcpy.ListRasters()
+d = arcpy.Describe(inPath)
 
 ## Set band values
 if Sensor == "Landsat 1-5 MSS":
-    BlueBand = "1"
-    GreenBand = "2"
-    RedBand = "3"
-    NIR1Band = "4"
+    Blue = Raster(d.children[0].name)
+    Green = Raster(d.children[1].name)
+    Red = Raster(d.children[2].name)
+    NIR1 = Raster(d.children[3].name)
 
 if Sensor == "Landsat 4-5 TM" or Sensor == "Landsat 7 ETM+":
-    BlueBand = "1"
-    GreenBand = "2"
-    RedBand = "3"
-    NIR1Band = "4"
-    SWIR1Band = "5"
-    SWIR2Band = "6"
+    Blue = Raster(d.children[0].name)
+    Green = Raster(d.children[1].name)
+    Red = Raster(d.children[2].name)
+    NIR1 = Raster(d.children[3].name)
+    SWIR1 = Raster(d.children[4].name)
+    SWIR2 = Raster(d.children[5].name)
 
 if Sensor == "Landsat 8 OLI":
-    CoastalBand = "1"
-    BlueBand = "2"
-    GreenBand = "3"
-    RedBand = "4"
-    NIR1Band = "5"
-    SWIR1Band = "6"
-    SWIR2Band = "7"
-    CirrusBand = "9"
+    Coastal = Raster(d.children[0].name)
+    Blue = Raster(d.children[1].name)
+    Green = Raster(d.children[2].name)
+    Red = Raster(d.children[3].name)
+    NIR1 = Raster(d.children[4].name)
+    SWIR1 = Raster(d.children[6].name)
+    SWIR2 = Raster(d.children[7].name)
+    Cirrus = Raster(d.children[5].name)
 
 if Sensor == "MODIS":
-    RedBand = "1"
-    NIR1Band = "2"
-    BlueBand = "3"
-    GreenBand = "4"
-    NIR2Band = "5"
-    SWIR1Band = "6"
-    SWIR2Band = "7"
+    Red = Raster(d.children[0].name)
+    NIR1 = Raster(d.children[1].name)
+    Blue = Raster(d.children[2].name)
+    Green = Raster(d.children[3].name)
+    NIR2 = Raster(d.children[4].name)
+    SWIR1 = Raster(d.children[5].name)
+    SWIR2 = Raster(d.children[6].name)
 
 if Sensor == "Worldview 02":
-    CoastalBand = "1"
-    BlueBand = "2"
-    GreenBand = "3"
-    YellowBand = "4"
-    RedBand = "5"
-    RedEdgeBand = "6"
-    NIR1Band = "7"
-    NIR2Band = "8"
+    Coastal = Raster(d.children[0].name)
+    Blue = Raster(d.children[1].name)
+    Green = Raster(d.children[2].name)
+    Yellow = Raster(d.children[3].name)
+    Red = Raster(d.children[4].name)
+    RedEdge = Raster(d.children[5].name)
+    NIR1 = Raster(d.children[6].name)
+    NIR2 = Raster(d.children[7].name)
 
-## Export individual bands
-print "Exporting Bands"
-band = 0
-for bandfile in bands:
-#    if not (outPath and os.path.exists(outPath)): os.makedirs(outPath):
-    band += 1
-    outBand = Raster(bandfile) * 1.0
-    outBand.save(outPath + "/" + inRaster[:-4] + "_B" + str(band) + ".tif")
-
-## Set band files based on sensor
-Green = Raster(outPath + "/"  + inRaster[:-4] + "_B" + GreenBand + ".tif")
-Red = Raster(outPath + "/"  + inRaster[:-4] + "_B" + RedBand + ".tif")
-NIR1 = Raster(outPath + "/"  + inRaster[:-4] + "_B" + NIR1Band + ".tif")
-Blue = Raster(outPath + "/"  + inRaster[:-4] + "_B" + BlueBand + ".tif")
-
-if Sensor == "Worldview 02" or Sensor == "Landsat 8 OLI":
-    Coastal = Raster(outPath + "/" + inRaster[:-4] + "_B" + CoastalBand + ".tif")
-
-if Sensor == "Worldview 02":
-    Yellow = Raster(outPath + "/"  + inRaster[:-4] + "_B" + YellowBand + ".tif")
-    RedEdge = Raster(outPath + "/"  + inRaster[:-4] + "_B" + RedEdgeBand + ".tif")
-
-if Sensor == "Worldview 02" or Sensor == "MODIS":
-    NIR2 = Raster(outPath + "/"  + inRaster[:-4] + "_B" + NIR2Band + ".tif")
-
-if Sensor == "Landsat 4-5 TM" or Sensor == "Landsat 7 ETM+" or Sensor == "Landsat 8 OLI" or Sensor == "MODIS":
-    SWIR1 = Raster(outPath + "/"  + inRaster[:-4] + "_B" + SWIR1Band + ".tif")
-    SWIR2 = Raster(outPath + "/"  + inRaster[:-4] + "_B" + SWIR2Band + ".tif")
+## Export individual Bands
+if exVar.get():
+    bands = arcpy.ListRasters()
+    print "Exporting Bands"
+    band = 0
+    for bandfile in bands:
+        band += 1
+        outBand = Raster(bandfile) * 1.0
+        outBand.save(outPath + "/" + inRaster[:-4] + "_B" + str(band) + ".tif")
 
 # Set indice equations compatible with all sensors
 indicesForm = {
@@ -356,7 +338,7 @@ indicesForm = {
     'SAVI':((NIR1 - Red)/(NIR1 + Red + 0.5)) * (1 + 0.5),
     'MSAVI2':(2 * NIR1 + 1 - SquareRoot((2 * NIR1 + 1)**2 - 8 * (NIR1-Red)))/2,
     'Iron Oxide':(Red/Blue),
-    'BAI':1/((0.1-Red)**2 + (0.06 - NIR1)**2),
+    'BAI':1/((0.1 - Red)**2 + (0.06 - NIR1)**2),
     'NDSI':(Green - NIR1)/(Green + NIR1)
     }
 
