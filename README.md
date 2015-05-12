@@ -77,7 +77,7 @@ Run the Python script (RS_Indices_Derivation.py) and use the GUI to select the s
 
 *Landsat 8 OLI:*
 
-* Coastal - Blue - Green - Red - NIR - SWIR1 - SWIR2 - Cirrus
+* Coastal - Blue - Green - Red - NIR - Cirrus - SWIR1 - SWIR2
 
 
 *MODIS:*
