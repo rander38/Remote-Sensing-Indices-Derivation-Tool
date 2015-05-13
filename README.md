@@ -1,6 +1,6 @@
 ## Remote Sensing Indices Derivation Tool
 
-Processes stacked raster file to calculate spectral remote sensing indices and export individual bands.
+Processes stacked raster file to calculate spectral remote sensing indices and export individual bands using arcpy or GDAL.
 
 **Sensors supported:**
 
@@ -59,6 +59,7 @@ Miscellaneous Indices
 Requires arcpy and [Tkinter] (https://wiki.python.org/moin/TkInter). 
 
 **GDAL version**
+
 Requires [GDAL Calculations] (https://pypi.python.org/pypi/gdal-calculations) and [Tkinter] (https://wiki.python.org/moin/TkInter). 
 
 Run the Python script (RS_Indices_Derivation.py) and use the GUI to select the satellite sensor, indices to calculate, input raster, and output path.
