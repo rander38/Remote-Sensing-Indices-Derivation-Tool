@@ -62,8 +62,8 @@ indices = [
 'BAI',
 ## Miscellaneous
 'NDBI',
-'NHFD',
 'NDSI',
+'NHFD',
 ## Tasseled Cap
 'Brightness',
 'Greenness',
@@ -323,11 +323,9 @@ if Sensor == "Worldview 02":
 if exVar.get():
     bands = arcpy.ListRasters()
     print "Exporting Bands"
-    band = 0
-    for bandfile in bands:
-        band += 1
-        outBand = Raster(bandfile) * 1.0
-        outBand.save(outPath + "/" + inRaster[:-4] + "_B" + str(band) + ".tif")
+    for bandNo, bandName in enumerate(bands):
+        outBand = Raster(bandName) * 1.0
+        outBand.save(outPath + "/" + inRaster[:-4] + "_B" + str(bandNo + 1) + ".tif")
 
 # Set indice equations compatible with all sensors
 indicesForm = {
