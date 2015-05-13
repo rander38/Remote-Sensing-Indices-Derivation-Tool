@@ -92,7 +92,6 @@ Run the Python script (RS_Indices_Derivation.py) and use the GUI to select the s
 ### Future Plans
 
 * Additional Sensors/Indices (Requests are welcome)
-* Remove arcpy in favor of GDAL
 * QGIS/ArcGIS Toolbox
 
 ### Works Cited
