@@ -53,7 +53,8 @@ Miscellaneous Indices
   * Reflectance required for TM, ETM+, OLI, WV02, and MODIS
   * Digital Number (DN) required for MSS
 
-## Instructions
+## Requirements
+
 **arcpy version**
 
 Requires arcpy and [Tkinter] (https://wiki.python.org/moin/TkInter). 
@@ -61,6 +62,8 @@ Requires arcpy and [Tkinter] (https://wiki.python.org/moin/TkInter).
 **GDAL version**
 
 Requires [GDAL Calculations] (https://pypi.python.org/pypi/gdal-calculations) and [Tkinter] (https://wiki.python.org/moin/TkInter). 
+
+## Instructions
 
 Run the Python script (RS_Indices_Derivation.py) and use the GUI to select the satellite sensor, indices to calculate, input raster, and output path.
 
