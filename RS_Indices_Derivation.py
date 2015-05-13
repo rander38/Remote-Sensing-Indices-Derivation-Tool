@@ -36,8 +36,8 @@ arcpy.CheckOutExtension("spatial")
 arcpy.env.overwriteOutput = 1
 
 ## Set input stacked image and output directory if desired
-inPath = r"G:\Imagery Processing\TM\TM.tif"
-outPath = r"G:\Imagery Processing\TM\Processed"
+inPath = r""
+outPath = r""
 
 indices = [
 ## Vegetatoion
@@ -222,10 +222,10 @@ indirEntry.insert(INSERT, inPath)
 indirEntry.grid(row=rowpos,column=0, sticky=W, columnspan=8, padx=5)
 
 def indirbrowser():
-    indir1 = askopenfilename(parent=top, title="Select Stacked Input Image")
-    if len(indir1) > 0:
+    indir = askopenfilename(parent=top, title="Select Stacked Input Image")
+    if len(indir) > 0:
         indirEntry.delete(0, END)
-        indirEntry.insert(INSERT, indir1)
+        indirEntry.insert(INSERT, indir)
 
 indirButton = Button(top, text = 'Browse', command=indirbrowser).grid(row=rowpos, column=4, pady=2, padx=2)
 rowpos += 1
@@ -239,10 +239,10 @@ outdirEntry.insert(INSERT, outPath)
 outdirEntry.grid(row=rowpos, column=1, sticky=W, columnspan=8, padx=5)
 
 def outdirbrowser():
-    outdir1 = askdirectory(parent=top, title="Select Root Output Directory", mustexist=1)
-    if len(outdir1) > 0:
+    outdir = askdirectory(parent=top, title="Select Root Output Directory", mustexist=1)
+    if len(outdir) > 0:
         outdirEntry.delete(0, END)
-        outdirEntry.insert(INSERT, outdir1)
+        outdirEntry.insert(INSERT, outdir)
 
 outdirButton = Button(top, text = 'Browse', command=outdirbrowser).grid(row=rowpos, column=4, pady=2, padx=2)
 rowpos += 1
