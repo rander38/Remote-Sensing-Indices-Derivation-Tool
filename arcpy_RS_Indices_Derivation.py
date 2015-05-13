@@ -48,10 +48,10 @@ indices = [
 'EVI2',
 'NDMI',
 'NMDI',
-## Water
+## Hydrologic
 'NDWI',
 'MNDWI',
-## Geology
+## Geologic
 'Clay',
 'Ferrous',
 'Iron Oxide',
@@ -148,8 +148,8 @@ for i, text in enumerate(indices):
         colpos = 2
         rowpos += 1
     sectionBreak("NDVI", "Vegetation Indices")
-    sectionBreak("NDWI", "Water Indices")
-    sectionBreak("Clay", "Geology Indices")
+    sectionBreak("NDWI", "Hydrologic Indices")
+    sectionBreak("Clay", "Geologic Indices")
     sectionBreak("NBR", "Burn Indices")
     sectionBreak("NDBI", "Miscellaneous Indices")
     if text == 'Brightness':

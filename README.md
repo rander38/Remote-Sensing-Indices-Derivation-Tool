@@ -23,12 +23,12 @@ Vegetation Related Indices
 * [NDMI (Normalized Difference Moisture Index)] (http://www.indexdatabase.de/db/i-single.php?id=56)
 * [NMDI (Normalized Multi-band Drought Index)] (http://onlinelibrary.wiley.com/doi/10.1029/2007GL031021/abstract)
 
-Water Indices
+Hydrologic Indices
 
 * [NDWI (Normalized Difference Water Index)] (http://www.indexdatabase.de/db/i-single.php?id=60)
 * [MNDWI (Modified Normalized Difference Water Index)] (http://www.tandfonline.com/doi/abs/10.1080/01431160600589179)
 
-Geology Indices
+Geologic/Soil Indices
 
 * [Clay Minerals Ratio] (http://library.dmr.go.th/library/TextBooks/10146.pdf)
 * [Ferrous Minerals Ratio] (http://library.dmr.go.th/library/TextBooks/10146.pdf)
