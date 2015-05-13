@@ -112,7 +112,7 @@ sensors = [
 
 ## GUI
 top = Tk()
-top.title("Process Imagery")
+top.title("Remote Sensing Indices Derivation Tool")
 
 def cbChecked():
     label['text'] = ''
