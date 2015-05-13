@@ -1,2 +1,7 @@
-arcpy
-Tkinter
+arcpy version
+* arcpy
+* Tkinter
+
+GDAL version
+* GDAL Calculations
+* Tkinter
