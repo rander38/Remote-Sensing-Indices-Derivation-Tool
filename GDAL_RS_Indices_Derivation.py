@@ -34,8 +34,8 @@ startTime = time.time()
 Env.overwrite = True
 
 ## Set input stacked image and output directory if desired
-inPath = r"G:\Imagery Processing\MSS\MSS.tif"
-outPath = r"G:\Imagery Processing\MSS\GDAL"
+inPath = r""
+outPath = r""
 
 indices = [
 ## Vegetatoion
