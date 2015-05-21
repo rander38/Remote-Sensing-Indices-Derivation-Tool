@@ -90,6 +90,7 @@ TM_ETM_OLI_MODIS_Disable = [
 'Yellowness',
 'WVII',
 'WVSI',
+'Iron Oxide'
 ]
 
 WV_Disable = [
@@ -277,10 +278,10 @@ d = arcpy.Describe(inPath)
 
 ## Set band values
 if Sensor == "Landsat 1-5 MSS":
-    Blue = Raster(d.children[0].name)
-    Green = Raster(d.children[1].name)
-    Red = Raster(d.children[2].name)
-    NIR1 = Raster(d.children[3].name)
+    Green = Raster(d.children[0].name)
+    Red = Raster(d.children[1].name)
+    NIR1 = Raster(d.children[2].name)
+    NIR2 = Raster(d.children[3].name)
 
 if Sensor == "Landsat 4-5 TM" or Sensor == "Landsat 7 ETM+":
     Blue = Raster(d.children[0].name)
@@ -335,7 +336,6 @@ indicesForm = {
     'NDWI':(Green - NIR1)/(Green + NIR1),
     'SAVI':((NIR1 - Red)/(NIR1 + Red + 0.5)) * (1 + 0.5),
     'MSAVI2':(2 * NIR1 + 1 - SquareRoot((2 * NIR1 + 1)**2 - 8 * (NIR1-Red)))/2,
-    'Iron Oxide':(Red/Blue),
     'BAI':1/((0.1 - Red)**2 + (0.06 - NIR1)**2),
     'NDSI':(Green - NIR1)/(Green + NIR1)
     }
@@ -349,12 +349,13 @@ if Sensor == "Landsat 4-5 TM" or Sensor == "Landsat 7 ETM+" or Sensor == "Landsa
     indicesForm['Clay'] = (SWIR1/SWIR2)
     indicesForm['Ferrous'] = (SWIR1/NIR1)
     indicesForm['NDBI'] = (SWIR1 - NIR1)/(SWIR1 + NIR1)
+    indicesForm['Iron Oxide'] = (Red/Blue)
 
 ## Add Tasseled Cap Transformation with sensor specific coefficients
 if Sensor == "Landsat 1-5 MSS": 
-    indicesForm['Brightness'] = (Blue * 0.433) + (Green * 0.632) + (Red * 0.586) + (NIR1 * 0.264)
-    indicesForm['Greenness'] = (Blue * -0.290) + (Green * -0.562) + (Red * 0.600) + (NIR1 * 0.491)
-    indicesForm['Yellowness'] = (Blue * -0.829) + (Green * 0.522) + (Red * -0.039) + (NIR1 * 0.194)
+    indicesForm['Brightness'] = (Green * 0.433) + (Red * 0.632) + (NIR1 * 0.586) + (NIR2 * 0.264)
+    indicesForm['Greenness'] = (Green * -0.290) + (Red * -0.562) + (NIR1 * 0.600) + (NIR2 * 0.491)
+    indicesForm['Yellowness'] = (Green * -0.829) + (Red * 0.522) + (NIR1 * -0.039) + (NIR2 * 0.194)
 
 ''' Requires Digital Number (DN)
 Kauth, R., & Thomas, G. (1976). The tasselled cap--a graphic description of the spectral-temporal development of agricultural crops
@@ -408,6 +409,7 @@ if Sensor == "Worldview 02":
     indicesForm['Wetness'] = (Coastal * -0.270951) + (Blue * -0.315708) + (Green * -0.317263) + (Yellow * -0.242544) + (Red * -0.256463) + (RedEdge * -0.096550) + (NIR1 * -0.742535) + (NIR2 * 0.202430)
     indicesForm['WVII'] = (Green * Yellow)/(Blue * 1000)
     indicesForm['WVSI'] = (Green - Yellow)/(Green + Yellow)    
+    indicesForm['Iron Oxide'] = (Red/Blue)
 
 ''' Requires Reflectance
     Yarbough, L. D., Navulur, K., & Ravi, R. (2014). Presentation of the Kauth-Thomas transform for Worldview-2 reflectance data.
