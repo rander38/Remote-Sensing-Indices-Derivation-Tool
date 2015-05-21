@@ -352,7 +352,7 @@ if Sensor == "Landsat 4-5 TM" or Sensor == "Landsat 7 ETM+" or Sensor == "Landsa
     indicesForm['Iron Oxide'] = (Red/Blue)
 
 ## Add Tasseled Cap Transformation with sensor specific coefficients
-if Sensor == "Landsat 1-5 MSS": 
+if Sensor == "Landsat 1-5 MSS":
     indicesForm['Brightness'] = (Green * 0.433) + (Red * 0.632) + (NIR1 * 0.586) + (NIR2 * 0.264)
     indicesForm['Greenness'] = (Green * -0.290) + (Red * -0.562) + (NIR1 * 0.600) + (NIR2 * 0.491)
     indicesForm['Yellowness'] = (Green * -0.829) + (Red * 0.522) + (NIR1 * -0.039) + (NIR2 * 0.194)
