@@ -40,7 +40,7 @@ inPath = r""
 outPath = r""
 
 indices = [
-## Vegetatoion
+## Vegetation
 'NDVI',
 'SAVI',
 'MSAVI2',
