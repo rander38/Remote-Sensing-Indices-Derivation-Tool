@@ -75,7 +75,7 @@ Run the Python script (RS_Indices_Derivation.py) and use the GUI to select the s
 
 *Landsat 1-5 MSS*
 
-* Blue - Green - Red - NIR
+* Green - Red - NIR1 - NIR2
 
 
 *Landsat 4-5 TM/Landsat 7 ETM+:*
