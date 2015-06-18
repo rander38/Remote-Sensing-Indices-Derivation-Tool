@@ -70,7 +70,7 @@ Run the arcpy or GDAL Python script and use the GUI to select the satellite sens
   <img src="https://github.com/rander38/Remote-Sensing-Indices-Derivation-Tool/blob/master/Documentation/GUI.PNG" alt="Interface"/>
 </p>
 
-**Input raster should be stacked as follows, or adjust band designations within Python script.**
+**Input raster should be stacked as follows (or manually adjust band designations within Python script)**
 
 *Landsat 1-5 MSS*
 
