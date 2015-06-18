@@ -1,6 +1,6 @@
 ## Remote Sensing Indices Derivation Tool
 
-Processes stacked raster file to calculate spectral remote sensing indices and export individual bands using arcpy or GDAL.
+Processes a stacked raster file to calculate spectral remote sensing indices and export individual bands.
 
 **Sensors supported:**
 
@@ -17,7 +17,6 @@ Vegetation Related Indices
 
 * [NDVI (Normalized Difference Vegetation Index)] (http://www.indexdatabase.de/db/i-single.php?id=58)
 * [SAVI (Soil Adjusted Vegetation Index)] (http://www.indexdatabase.de/db/i-single.php?id=87)
-* [MSAVI2 (Modified Soil Adjusted Vegetation Index 2)] (http://www.sciencedirect.com/science/article/pii/0034425794901341)
 * [EVI (Enhanced Vegetation Index)] (http://www.indexdatabase.de/search/?s=evi)
 * [EVI2 (Enhanced Vegetation Index 2)] (http://www.indexdatabase.de/search/?s=evi)
 * [NDMI (Normalized Difference Moisture Index)] (http://www.indexdatabase.de/db/i-single.php?id=56)
@@ -71,7 +70,7 @@ Run the Python script (RS_Indices_Derivation.py) and use the GUI to select the s
   <img src="https://github.com/rander38/Remote-Sensing-Indices-Derivation-Tool/blob/master/Documentation/GUI.PNG" alt="Interface"/>
 </p>
 
-**Input raster should be stacked as follows:**
+**Input raster should be stacked as follows, or adjust band designations within Python script.**
 
 *Landsat 1-5 MSS*
 

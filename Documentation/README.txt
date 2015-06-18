@@ -1,6 +1,6 @@
 ﻿## Remote Sensing Indices Derivation Tool
 
-Processes stacked raster file to calculate spectral remote sensing indices and export individual bands.
+Processes a stacked raster file to calculate spectral remote sensing indices and export individual bands.
 
 **Sensors supported:**
 
@@ -17,18 +17,17 @@ Vegetation Related Indices
 
 * [NDVI (Normalized Difference Vegetation Index)] (http://www.indexdatabase.de/db/i-single.php?id=58)
 * [SAVI (Soil Adjusted Vegetation Index)] (http://www.indexdatabase.de/db/i-single.php?id=87)
-* [MSAVI2 (Modified Soil Adjusted Vegetation Index 2)] (http://www.sciencedirect.com/science/article/pii/0034425794901341)
 * [EVI (Enhanced Vegetation Index)] (http://www.indexdatabase.de/search/?s=evi)
 * [EVI2 (Enhanced Vegetation Index 2)] (http://www.indexdatabase.de/search/?s=evi)
 * [NDMI (Normalized Difference Moisture Index)] (http://www.indexdatabase.de/db/i-single.php?id=56)
 * [NMDI (Normalized Multi-band Drought Index)] (http://onlinelibrary.wiley.com/doi/10.1029/2007GL031021/abstract)
 
-Water Indices
+Hydrologic Indices
 
 * [NDWI (Normalized Difference Water Index)] (http://www.indexdatabase.de/db/i-single.php?id=60)
 * [MNDWI (Modified Normalized Difference Water Index)] (http://www.tandfonline.com/doi/abs/10.1080/01431160600589179)
 
-Geology Indices
+Geologic/Soil Indices
 
 * [Clay Minerals Ratio] (http://library.dmr.go.th/library/TextBooks/10146.pdf)
 * [Ferrous Minerals Ratio] (http://library.dmr.go.th/library/TextBooks/10146.pdf)
@@ -53,21 +52,25 @@ Miscellaneous Indices
   * Reflectance required for TM, ETM+, OLI, WV02, and MODIS
   * Digital Number (DN) required for MSS
 
-## Instructions
+## Requirements
+
 **arcpy version**
 
 Requires arcpy and [Tkinter] (https://wiki.python.org/moin/TkInter). 
 
 **GDAL version**
+
 Requires [GDAL Calculations] (https://pypi.python.org/pypi/gdal-calculations) and [Tkinter] (https://wiki.python.org/moin/TkInter). 
+
+## Instructions
 
 Run the Python script (RS_Indices_Derivation.py) and use the GUI to select the satellite sensor, indices to calculate, input raster, and output path.
 
 <p align="center">
-  <img src="https://github.com/rander38/Remote-Sensing-Indices-Derivation-Tool/blob/master/Documentation/GUI1.PNG" alt="Interface"/>
+  <img src="https://github.com/rander38/Remote-Sensing-Indices-Derivation-Tool/blob/master/Documentation/GUI.PNG" alt="Interface"/>
 </p>
 
-**Input raster should be stacked as follows:**
+**Input raster should be stacked as follows, or adjust band designations within Python script.**
 
 *Landsat 1-5 MSS*
 

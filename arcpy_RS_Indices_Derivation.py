@@ -23,7 +23,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 '''
 
-import arcpy, Tkinter, os, time
+import arcpy, Tkinter, os, time, ConfigParser
 from arcpy.sa import *
 import arcgisscripting
 from Tkinter import *
@@ -35,91 +35,49 @@ gp = arcgisscripting.create(10.1)
 arcpy.CheckOutExtension("spatial")
 arcpy.env.overwriteOutput = 1
 
+## Read .ini file
+Config = ConfigParser.ConfigParser()
+Config.read("Sensors_Formulas_RSIDT.ini")
+
 ## Set input stacked image and output directory if desired
 inPath = r""
 outPath = r""
 
-indices = [
-## Vegetation
-'NDVI',
-'SAVI',
-'MSAVI2',
-'EVI',
-'EVI2',
-'NDMI',
-'NMDI',
-## Hydrologic
-'NDWI',
-'MNDWI',
-## Geologic
-'Clay',
-'Ferrous',
-'Iron Oxide',
-'WVII',
-'WVSI',
-# Burn
-'NBR',
-'BAI',
-## Miscellaneous
-'NDBI',
-'NDSI',
-'NHFD',
-## Tasseled Cap
-'Brightness',
-'Greenness',
-'Wetness',
-'Yellowness',
-]
+## Get values from .ini file
+indices = eval(Config.get("Parameters", "indices")) ## List of indices
+sensors = eval(Config.get("Parameters", "sensors")) ## List of sensors
+indicesSensor = eval(Config.get("Parameters", "indicesSensor")) ## Dictionary of indices with compatible sensors
 
-MSS_Disable = [
-'NHFD',
-'NDMI',
-'MNDWI',
-'NBR',
-'NMDI',
-'Wetness',
-'Clay',
-'Ferrous',
-'WVII',
-'WVSI',
-'NDBI'
-]
+## Set indices to disable based on sensor compatibility
+MSS_Disable = []
+TM_Disable = []
+ETM_Disable = []
+OLI_Disable = []
+MODIS_Disable = []
+WV_Disable = []
+for key, value in indicesSensor.iteritems():
+    if "Landsat 1-5 MSS" not in value:
+        MSS_Disable.append(key)
+    if "Landsat 4-5 TM" not in value:
+        TM_Disable.append(key)
+    if "Landsat 7 ETM+" not in value:
+        ETM_Disable.append(key)
+    if "Landsat 8 OLI" not in value:
+        OLI_Disable.append(key)
+    if "MODIS" not in value:
+        MODIS_Disable.append(key)
+    if "Worldview 02" not in value:
+        WV_Disable.append(key)
 
-TM_ETM_OLI_MODIS_Disable = [
-'NHFD',
-'Yellowness',
-'WVII',
-'WVSI',
-'Iron Oxide'
-]
+## --------------Begin GUI----------------
 
-WV_Disable = [
-'NDMI',
-'MNDWI',
-'NBR',
-'NMDI',
-'Yellowness',
-'Clay',
-'Ferrous',
-'NDBI'
-]
-
-sensors = [
-"Landsat 1-5 MSS",
-"Landsat 4-5 TM",
-"Landsat 7 ETM+",
-"Landsat 8 OLI",
-"MODIS",
-"Worldview 02"
-]
-
-## GUI
 top = Tk()
 top.title("Remote Sensing Indices Derivation Tool")
 
 def cbChecked():
     label['text'] = ''
 
+## Set text to require reflectance or digital number based on sensor
 def tcapshowstate(*args):
     if cbVar[indices.index("Brightness")].get() or cbVar[indices.index("Greenness")].get() or cbVar[indices.index("Wetness")].get():
         if vSensor.get() == "MODIS" or vSensor.get() == "Landsat 4-5 TM" or vSensor.get() == "Worldview 02" or vSensor.get() == "Landsat 7 ETM+" or vSensor.get() == "Landsat 8 OLI":
@@ -164,7 +122,6 @@ for i, text in enumerate(indices):
     cb[i] = Checkbutton(top, text=text, variable=cbVar[i], command=cbChecked)
     cb[i].grid(row=rowpos, column=colpos, sticky=W, padx=4, pady=4)
     colpos += 1
-#    cbVar[i].set(1)
 label = Label(top, width=5)
 label.grid(row=rowpos, column=colpos)
 cbChecked()
@@ -199,10 +156,10 @@ def disable(sensor, disableList):
 ## Disable or enable checkbuttons based on sensor selection
 def showstate(*args):
     disable("Worldview 02", WV_Disable)
-    disable("Landsat 4-5 TM", TM_ETM_OLI_MODIS_Disable)
-    disable("Landsat 7 ETM+", TM_ETM_OLI_MODIS_Disable)
-    disable("Landsat 8 OLI", TM_ETM_OLI_MODIS_Disable)
-    disable("MODIS", TM_ETM_OLI_MODIS_Disable)
+    disable("Landsat 4-5 TM", TM_Disable)
+    disable("Landsat 7 ETM+", ETM_Disable)
+    disable("Landsat 8 OLI", OLI_Disable)
+    disable("MODIS", MODIS_Disable)
     disable("Landsat 1-5 MSS", MSS_Disable)
 
 vSensor.trace_variable("w", showstate)
@@ -262,21 +219,21 @@ Button(top, text='Quit', command=quitbutton).grid(row=rowpos, column=2, pady=4, 
 
 top.mainloop()
 
-## Set variables from GUI
+## --------------End GUI----------------
+
+## Set variables selected from GUI
 Sensor = vSensor.get()
 inPath = indirVar.get()
 outPath = outdirVar.get()
 arcpy.env.workspace = inPath
 
-## Create output directory if it doesn't exist
-if not (outPath and os.path.exists(outPath)): os.makedirs(outPath)
-
+if not (outPath and os.path.exists(outPath)): os.makedirs(outPath) ## Create output directory if it doesn't exist
 pathRoot, inRaster = os.path.split(inPath)
 print "Processing", inRaster
 
 d = arcpy.Describe(inPath)
 
-## Set band values
+## Set bands based on sensor
 if Sensor == "Landsat 1-5 MSS":
     Green = Raster(d.children[0].name)
     Red = Raster(d.children[1].name)
@@ -297,9 +254,8 @@ if Sensor == "Landsat 8 OLI":
     Green = Raster(d.children[2].name)
     Red = Raster(d.children[3].name)
     NIR1 = Raster(d.children[4].name)
-    SWIR1 = Raster(d.children[6].name)
-    SWIR2 = Raster(d.children[7].name)
-    Cirrus = Raster(d.children[5].name)
+    SWIR1 = Raster(d.children[5].name)
+    SWIR2 = Raster(d.children[6].name)
 
 if Sensor == "MODIS":
     Red = Raster(d.children[0].name)
@@ -320,7 +276,7 @@ if Sensor == "Worldview 02":
     NIR1 = Raster(d.children[6].name)
     NIR2 = Raster(d.children[7].name)
 
-## Export individual Bands
+## Export individual Bands if selected
 if exVar.get():
     bands = arcpy.ListRasters()
     print "Exporting Bands"
@@ -328,101 +284,16 @@ if exVar.get():
         outBand = Raster(bandName) * 1.0
         outBand.save(outPath + "/" + inRaster[:-4] + "_B" + str(bandNo + 1) + ".tif")
 
-# Set indice equations compatible with all sensors
-indicesForm = {
-    'NDVI':(NIR1 - Red)/(NIR1 + Red),
-    'EVI':2.5*((NIR1 - Red)/(NIR1 + 6 * Red - 7.5 * Blue + 1)),
-    'EVI2':2.4*((NIR1 - Red)/(NIR1 + Red + 1)),
-    'NDWI':(Green - NIR1)/(Green + NIR1),
-    'SAVI':((NIR1 - Red)/(NIR1 + Red + 0.5)) * (1 + 0.5),
-    'MSAVI2':(2 * NIR1 + 1 - SquareRoot((2 * NIR1 + 1)**2 - 8 * (NIR1-Red)))/2,
-    'BAI':1/((0.1 - Red)**2 + (0.06 - NIR1)**2),
-    'NDSI':(Green - NIR1)/(Green + NIR1)
-    }
-
-## Add sensor specific indices
-if Sensor == "Landsat 4-5 TM" or Sensor == "Landsat 7 ETM+" or Sensor == "Landsat 8 OLI" or Sensor == "MODIS":
-    indicesForm['NDMI'] = (NIR1 - SWIR1)/(NIR1 + SWIR1)
-    indicesForm['MNDWI'] = (Green - SWIR1)/(Green + SWIR1)
-    indicesForm['NBR'] = (NIR1 - SWIR1)/(NIR1 + SWIR1)
-    indicesForm['NMDI'] = (NIR1 - (SWIR1 - SWIR2))/(NIR1 + (SWIR1 - SWIR2))
-    indicesForm['Clay'] = (SWIR1/SWIR2)
-    indicesForm['Ferrous'] = (SWIR1/NIR1)
-    indicesForm['NDBI'] = (SWIR1 - NIR1)/(SWIR1 + NIR1)
-    indicesForm['Iron Oxide'] = (Red/Blue)
-
-## Add Tasseled Cap Transformation with sensor specific coefficients
-if Sensor == "Landsat 1-5 MSS":
-    indicesForm['Brightness'] = (Green * 0.433) + (Red * 0.632) + (NIR1 * 0.586) + (NIR2 * 0.264)
-    indicesForm['Greenness'] = (Green * -0.290) + (Red * -0.562) + (NIR1 * 0.600) + (NIR2 * 0.491)
-    indicesForm['Yellowness'] = (Green * -0.829) + (Red * 0.522) + (NIR1 * -0.039) + (NIR2 * 0.194)
-
-''' Requires Digital Number (DN)
-Kauth, R., & Thomas, G. (1976). The tasselled cap--a graphic description of the spectral-temporal development of agricultural crops
-as seen by Landsat. LARS Symposia.
-'''
-
-if Sensor == "Landsat 8 OLI": 
-    indicesForm['Brightness'] = (Blue * 0.3029) + (Green * 0.2786) + (Red * 0.4733) + (NIR1 * 0.5599) + (SWIR1 * 0.508) + (SWIR2 * 0.1872)
-    indicesForm['Greenness'] = (Blue * -0.2941) + (Green * -0.243) + (Red * -0.5424) + (NIR1 * 0.7276) + (SWIR1 * 0.0713) + (SWIR2 * -0.1608)
-    indicesForm['Wetness'] = (Blue * 0.1511) + (Green * 0.1973) + (Red * 0.3283) + (NIR1 * 0.3407) + (SWIR1 * -0.7117) + (SWIR2 * -0.4559)
-
-''' Requires Reflectance
-Baig, M. H. A., Zhang, L., Shuai, T., & Tong, Q. (2015). Derivation of a tasselled cap transformation based on Landsat 8 at-satellite reflectance.
-Remote Sensing Letters, 5(5), 423-431. doi:10.1080/2150704X.915434
-'''
-
-if Sensor == "Landsat 4-5 TM":
-    indicesForm['Brightness'] = (Blue * 0.2043) + (Green * 0.4158) + (Red * 0.5524) + (NIR1 * 0.5741) + (SWIR1 * 0.3124) + (SWIR2 * 0.2303)
-    indicesForm['Greenness'] = (Blue * -0.1603) + (Green * -0.2819) + (Red * -0.4934) + (NIR1 * 0.7940) + (SWIR1 * 0.0002) + (SWIR2 * -0.1446)
-    indicesForm['Wetness'] = (Blue * 0.0315) + (Green * 0.2021) + (Red * 0.3102) + (NIR1 * 0.1594) + (SWIR1 * -0.6806) + (SWIR2 * -0.6109)
-
-''' Requires Reflectance
-Crist, E. P. (1985). A TM Tasseled Cap equivalent transformation for reflectance factor data. Remote Sensing of Environment, 17(3), 301-306. doi:10.1016/0034-4257(85)90102-6
-'''    
-
-if Sensor == "Landsat 7 ETM+":
-    indicesForm['Greenness'] = (Blue * -0.3344) + (Green * -0.3544) + (Red * -0.4556) + (NIR1 * 0.6966) + (SWIR1 * -0.0242) + (SWIR2 * -0.2630)
-    indicesForm['Brightness'] = (Blue * 0.3561) + (Green * 0.3972) + (Red * 0.3904) + (NIR1 * 0.6966) + (SWIR1 * 0.2286) + (SWIR2 * 0.1596)
-    indicesForm['Wetness'] = (Blue * 0.2626) + (Green * 0.2141) + (Red * 0.0926) + (NIR1 * 0.0656) + (SWIR1 * -0.7629) + (SWIR2 * -0.5388)
-
-''' Requires Reflectance
-Huang, C., Wylie, B., Yang, L., Homer, C., & Zylstra, G. (2002). Derivation of a tasselled cap transformation based on Landsat 7 at-satellite reflectance.
-International Journal of Remote Sensing, 23(8), 1741-1748. doi:10.1080/01431160110106113
-'''
-
-if Sensor == "MODIS":
-    indicesForm['Brightness'] = (Blue * 0.3354) + (Green * 0.3834) + (Red * 0.3956) + (NIR1 * 0.4718) + (NIR2 * 0.3946) + (SWIR1 * 0.3434) + (SWIR2 * 0.2964)
-    indicesForm['Greenness'] = (Blue * -0.2129) + (Green * -0.2222) + (Red * -0.3399) + (NIR1 * 0.5952) + (NIR2 * 0.4617) + (SWIR1 * -0.1037) + (SWIR2 * -0.4600)
-    indicesForm['Wetness'] = (Blue * 0.5065) + (Green * 0.4040) + (Red * 0.10839) + (NIR1 * 0.0912) + (NIR2 * -0.2410) + (SWIR1 * -0.4658) + (SWIR2 * -0.5306)
-
-''' Requires Reflectance
-    Zhang, X. Z. X., Schaaf, C. B., Friedl, M. a., Strahler, a. H., Gao, F. G. F., & Hodges, J. C. F. (2002). 
-MODIS tasseled cap transformation and its utility. IEEE International Geoscience and Remote Sensing Symposium, 
-2(C), 1063-1065. doi:10.1109/IGARSS.2002.1025776
-'''
-
-if Sensor == "Worldview 02":
-    indicesForm['NHFD'] = (RedEdge - Coastal)/(RedEdge + Coastal)
-    indicesForm['Brightness'] = (Coastal * -0.060436) + (Blue * 0.012147) + (Green *  0.125846) + (Yellow * 0.313039) + (Red *  0.412175) + (RedEdge * 0.482758) + (NIR1 * -0.160654) + (NIR2 * 0.673510)
-    indicesForm['Greenness'] = (Coastal * -0.140191) + (Blue * -0.206224) + (Green * -0.215854) + (Yellow * -0.314441) + (Red * -0.410892) + (RedEdge * 0.095786) + (NIR1 * 0.600549) + (NIR2 * 0.503672)
-    indicesForm['Wetness'] = (Coastal * -0.270951) + (Blue * -0.315708) + (Green * -0.317263) + (Yellow * -0.242544) + (Red * -0.256463) + (RedEdge * -0.096550) + (NIR1 * -0.742535) + (NIR2 * 0.202430)
-    indicesForm['WVII'] = (Green * Yellow)/(Blue * 1000)
-    indicesForm['WVSI'] = (Green - Yellow)/(Green + Yellow)    
-    indicesForm['Iron Oxide'] = (Red/Blue)
-
-''' Requires Reflectance
-    Yarbough, L. D., Navulur, K., & Ravi, R. (2014). Presentation of the Kauth-Thomas transform for Worldview-2 reflectance data.
-Remote Sensing Letters, 5(2), 131-138. doi:10.1080/2150704X.2014.885148
-  '''
-
-def CalculateIndice(text, indice):
-    if cbVar[indices.index(text)].get():
-        print text
-        indice.save(outPath + "/" + inRaster[:-4] + "_" + text + ".tif")
-
-for key,value in indicesForm.iteritems():
-    CalculateIndice(key,value)
+## Calculate and save indices
+for key, value in indicesSensor.iteritems():
+    if Sensor in value:
+        if cbVar[indices.index(key)].get(): ## Determine if indice was selected from GUI
+            if key == 'Brightness' or key == 'Greenness' or key == 'Wetness' or key == 'Yellowness': ## Check if tasseled cap index
+                formula = Config.get(Sensor, key) ## Get sensor specific tasseled cap coefficients
+            else:
+                formula = Config.get("Formulas", key)
+            print key
+            eval(formula).save(outPath + "/" + inRaster[:-4] + "_" + key + ".tif") ## Save index raster
 
 endTime = time.time() - startTime
 print "Completed in", ("%.2f" % endTime), 'seconds.'
