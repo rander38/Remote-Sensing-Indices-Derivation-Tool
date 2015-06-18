@@ -97,7 +97,7 @@ Run the arcpy or GDAL Python script and use the GUI to select the satellite sens
 * Coastal - Blue - Green - Yellow - Red - Red Edge - NIR1 - NIR2
 
 
-### Manually Add an Index
+**Manually Add an Index**
 
 Open the file, Sensors_Formulas_RSIDT.ini
 
