@@ -64,7 +64,7 @@ Requires [GDAL Calculations] (https://pypi.python.org/pypi/gdal-calculations) an
 
 ## Instructions
 
-Run the Python script (RS_Indices_Derivation.py) and use the GUI to select the satellite sensor, indices to calculate, input raster, and output path.
+Run the arcpy or GDAL Python script and use the GUI to select the satellite sensor, indices to calculate, input raster, and output path. Be sure Sensors_Formulas_RSIDT.ini is in the same directory.
 
 <p align="center">
   <img src="https://github.com/rander38/Remote-Sensing-Indices-Derivation-Tool/blob/master/Documentation/GUI.PNG" alt="Interface"/>
@@ -100,6 +100,14 @@ Run the Python script (RS_Indices_Derivation.py) and use the GUI to select the s
 
 * Additional Sensors/Indices (Requests are welcome)
 * QGIS/ArcGIS Toolbox
+
+## Manually adding an indices
+
+Open the file, Sensors_Formulas_RSIDT.ini
+
+In [Parameters], add the name of the index to the indices list, add the index with compatible sensors to the indicesSensor dictionary. 
+
+In [Formulas], add the index with equation.
 
 ### Works Cited
   Baig, M. H. A., Zhang, L., Shuai, T., & Tong, Q. (2015). Derivation of a tasselled cap transformation 
