@@ -96,18 +96,19 @@ Run the arcpy or GDAL Python script and use the GUI to select the satellite sens
 
 * Coastal - Blue - Green - Yellow - Red - Red Edge - NIR1 - NIR2
 
-### Future Plans
 
-* Additional Sensors/Indices (Requests are welcome)
-* QGIS/ArcGIS Toolbox
-
-## Manually adding an indices
+** Manually adding an indices
 
 Open the file, Sensors_Formulas_RSIDT.ini
 
 In [Parameters], add the name of the index to the indices list, add the index with compatible sensors to the indicesSensor dictionary. 
 
 In [Formulas], add the index with equation.
+
+### Future Plans
+
+* Additional Sensors/Indices (Requests are welcome)
+* QGIS/ArcGIS Toolbox
 
 ### Works Cited
   Baig, M. H. A., Zhang, L., Shuai, T., & Tong, Q. (2015). Derivation of a tasselled cap transformation 
