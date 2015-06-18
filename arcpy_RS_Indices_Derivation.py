@@ -44,9 +44,9 @@ inPath = r""
 outPath = r""
 
 ## Get values from .ini file
-indices = eval(Config.get("Parameters", "indices")) ## List of indices
-sensors = eval(Config.get("Parameters", "sensors")) ## List of sensors
-indicesSensor = eval(Config.get("Parameters", "indicesSensor")) ## Dictionary of indices with compatible sensors
+indices = eval(Config.get("Parameters", "indices"))                 ## List of indices
+sensors = eval(Config.get("Parameters", "sensors"))                 ## List of sensors
+indicesSensor = eval(Config.get("Parameters", "indicesSensor"))     ## Dictionary of indices with compatible sensors
 
 ## Set indices to disable based on sensor compatibility
 MSS_Disable = []
