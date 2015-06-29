@@ -145,9 +145,13 @@ based on Landsat 8 at-satellite reflectance. Remote Sensing Letters, 5(5), 423â€
   Zhang, X. Z. X., Schaaf, C. B., Friedl, M. a., Strahler, a. H., Gao, F. G. F., & Hodges, J. C. F. (2002). MODIS tasseled cap transformation and its utility. IEEE International Geoscience and Remote Sensing Symposium, 2(C), 1063â€“1065. doi:10.1109/IGARSS.2002.1025776
 
 ### License
-
-The MIT License (MIT)
 	
+This is a standard MIT License with the exception 
+1. You may not sell any application that you derive from the code in this repository 
+without specific written permission from Ryan S. Anderson.
+
+**The MIT License (MIT)**
+
 Copyright (c) 2015 Ryan S. Anderson
 	
 Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -156,10 +160,7 @@ the Software without restriction, including without limitation the rights to
 use, copy, modify, merge, publish, distribute, sublicense, and to permit persons 
 to whom the Software is furnished to do so, subject to the following conditions:
 	
-1.  You MAY NOT sell any application that you derive from the code in this repository 
-without specific written permission from Ryan S. Anderson.
-	  
-2.  The above copyright notice and this permission notice shall be included in all
+The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 	
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
