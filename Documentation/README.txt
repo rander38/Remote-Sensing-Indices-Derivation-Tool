@@ -70,7 +70,7 @@ Run the arcpy or GDAL Python script and use the GUI to select the satellite sens
   <img src="https://github.com/rander38/Remote-Sensing-Indices-Derivation-Tool/blob/master/Documentation/GUI.PNG" alt="Interface"/>
 </p>
 
-**Input raster should be stacked as follows, or adjust band designations within Python script.**
+**Input raster should be stacked as follows (or manually adjust band designations within Python script)**
 
 *Landsat 1-5 MSS*
 
@@ -96,18 +96,19 @@ Run the arcpy or GDAL Python script and use the GUI to select the satellite sens
 
 * Coastal - Blue - Green - Yellow - Red - Red Edge - NIR1 - NIR2
 
-### Future Plans
 
-* Additional Sensors/Indices (Requests are welcome)
-* QGIS/ArcGIS Toolbox
-
-## Manually adding an indices
+**Manually Add an Index**
 
 Open the file, Sensors_Formulas_RSIDT.ini
 
 In [Parameters], add the name of the index to the indices list, add the index with compatible sensors to the indicesSensor dictionary. 
 
 In [Formulas], add the index with equation.
+
+### Future Plans
+
+* Additional Sensors/Indices (Requests are welcome)
+* QGIS/ArcGIS Toolbox
 
 ### Works Cited
   Baig, M. H. A., Zhang, L., Shuai, T., & Tong, Q. (2015). Derivation of a tasselled cap transformation 
@@ -146,7 +147,7 @@ based on Landsat 8 at-satellite reflectance. Remote Sensing Letters, 5(5), 423â€
 ### License
 
 The MIT License (MIT)
-	
+
 Copyright (c) 2015 Ryan S. Anderson
 	
 Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -155,10 +156,7 @@ the Software without restriction, including without limitation the rights to
 use, copy, modify, merge, publish, distribute, sublicense, and to permit persons 
 to whom the Software is furnished to do so, subject to the following conditions:
 	
-1.  You MAY NOT sell any application that you derive from the code in this repository 
-without specific written permission from Ryan S. Anderson.
-	  
-2.  The above copyright notice and this permission notice shall be included in all
+The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 	
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
