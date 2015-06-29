@@ -147,6 +147,7 @@ based on Landsat 8 at-satellite reflectance. Remote Sensing Letters, 5(5), 423â€
 ### License
 	
 This is a standard MIT License with the exception 
+
 1. You may not sell any application that you derive from the code in this repository 
 without specific written permission from Ryan S. Anderson.
 
