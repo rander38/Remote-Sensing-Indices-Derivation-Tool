@@ -17,8 +17,8 @@ Vegetation Related Indices
 
 * [NDVI (Normalized Difference Vegetation Index)] (http://www.indexdatabase.de/db/i-single.php?id=58)
 * [SAVI (Soil Adjusted Vegetation Index)] (http://www.indexdatabase.de/db/i-single.php?id=87)
-* [EVI (Enhanced Vegetation Index)] (http://www.indexdatabase.de/search/?s=evi)
-* [EVI2 (Enhanced Vegetation Index 2)] (http://www.indexdatabase.de/search/?s=evi)
+* [EVI (Enhanced Vegetation Index)] (http://www.indexdatabase.de/db/i-single.php?id=16)
+* [EVI2 (Enhanced Vegetation Index 2)] (http://www.indexdatabase.de/db/i-single.php?id=237)
 * [NDMI (Normalized Difference Moisture Index)] (http://www.indexdatabase.de/db/i-single.php?id=56)
 * [NMDI (Normalized Multi-band Drought Index)] (http://onlinelibrary.wiley.com/doi/10.1029/2007GL031021/abstract)
 
