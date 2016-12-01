@@ -1,6 +1,6 @@
 ## Remote Sensing Indices Derivation Tool
 
-Processes a stacked raster file to calculate spectral remote sensing indices and export individual bands.
+Calculate spectral indices using satellite remote sensing data.
 
 **Sensors supported:**
 
