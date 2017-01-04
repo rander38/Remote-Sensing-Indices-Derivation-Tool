@@ -1,27 +1,27 @@
-'''
+""""
 The MIT License (MIT)
-	
+
 Copyright (c) 2015 Ryan S. Anderson
-	
+
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
 the Software without restriction, including without limitation the rights to
 use, copy, modify, merge, publish, distribute, sublicense, and to permit persons 
 to whom the Software is furnished to do so, subject to the following conditions:
-	
+
 1.  You MAY NOT sell any application that you derive from the code in this repository 
 without specific written permission from Ryan S. Anderson.
-	  
+
 2.  The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software. 
-	
+
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
 FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-'''
+"""
 
 import Tkinter, os, time, numpy, ConfigParser
 from gdal_calculations import *
@@ -32,20 +32,20 @@ from tkFileDialog import askdirectory, askopenfilename
 startTime = time.time()
 Env.overwrite = True
 
-## Read .ini file
+# Read .ini file
 Config = ConfigParser.ConfigParser()
 Config.read("Sensors_Formulas_RSIDT.ini")
 
-## Set input stacked image and output directory if desired
+# Set input stacked image and output directory if desired
 inPath = r""
 outPath = r""
 
-## Get values from .ini file
-indices = eval(Config.get("Parameters", "indices")) ## List of indices
-sensors = eval(Config.get("Parameters", "sensors")) ## List of sensors
-indicesSensor = eval(Config.get("Parameters", "indicesSensor")) ## Dictionary of indices with compatible sensors
+# Get values from .ini file
+indices = eval(Config.get("Parameters", "indices"))  # List of indices
+sensors = eval(Config.get("Parameters", "sensors"))  # List of sensors
+indicesSensor = eval(Config.get("Parameters", "indicesSensor"))  # Dictionary of indices with compatible sensors
 
-## Set indices to disable based on sensor compatibility
+# Set indices to disable based on sensor compatibility
 MSS_Disable = []
 TM_Disable = []
 ETM_Disable = []
@@ -66,15 +66,17 @@ for key, value in indicesSensor.iteritems():
     if "Worldview 02" not in value:
         WV_Disable.append(key)
 
-## --------------Begin GUI----------------
+# --------------Begin GUI----------------
 
 top = Tk()
 top.title("Remote Sensing Indices Derivation Tool")
 
+
 def cbChecked():
     label['text'] = ''
 
-## Set text to require reflectance or digital number based on sensor
+
+# Set text to require reflectance or digital number based on sensor
 def tcapshowstate(*args):
     if cbVar[indices.index("Brightness")].get() or cbVar[indices.index("Greenness")].get() or cbVar[indices.index("Wetness")].get():
         if vSensor.get() == "MODIS" or vSensor.get() == "Landsat 4-5 TM" or vSensor.get() == "Worldview 02" or vSensor.get() == "Landsat 7 ETM+" or vSensor.get() == "Landsat 8 OLI":
@@ -83,6 +85,7 @@ def tcapshowstate(*args):
             form["text"] = "(Requires Digital Number (DN))"
     else:
         form["text"] = ""
+
 
 def sectionBreak(index, title):
     if text == index:
@@ -128,6 +131,7 @@ rowpos += 1
 Label(top, text="Sensor", font="Times 12 bold").grid(row=1,column=1, sticky=W)
 Label(top, text="Indices", font="Times 12 bold").grid(row=1,column=2, sticky=W)
 
+
 # Set Radiobuttons
 def rbChecked():
     label['text'] = ''
@@ -141,6 +145,7 @@ for i, sensor in enumerate(sensors):
     sensrowpos += 1
 rbChecked()
 
+
 def disable(sensor, disableList):
     if vSensor.get() == sensor:
         for i in indices:
@@ -149,8 +154,9 @@ def disable(sensor, disableList):
         for i in disableList:
             cbVar[indices.index(i)].set(0)
             cb[indices.index(i)].configure(state='disabled')
-    
-## Disable or enable checkbuttons based on sensor selection
+
+
+# Disable or enable checkbuttons based on sensor selection
 def showstate(*args):
     disable("Worldview 02", WV_Disable)
     disable("Landsat 4-5 TM", TM_Disable)
@@ -166,7 +172,7 @@ cbVar[indices.index("Wetness")].trace_variable("w", tcapshowstate)
 vSensor.trace_variable("w", tcapshowstate)
 vSensor.set("Landsat 4-5 TM")
 
-top.resizable(0,0) # Disable window resizing
+top.resizable(0,0)  # Disable window resizing
 
 Label(top, text="Input Stacked Image").grid(row=rowpos,column=1, sticky=W)
 rowpos += 1
@@ -175,6 +181,7 @@ indirEntry = Entry(top, textvariable = indirVar, width=50)
 indirEntry.delete(0, END)
 indirEntry.insert(INSERT, inPath)
 indirEntry.grid(row=rowpos,column=0, sticky=W, columnspan=8, padx=5)
+
 
 def indirbrowser():
     indir = askopenfilename(parent=top, title="Select Stacked Input Image")
@@ -193,6 +200,7 @@ outdirEntry.delete(0, END)
 outdirEntry.insert(INSERT, outPath)
 outdirEntry.grid(row=rowpos, column=1, sticky=W, columnspan=8, padx=5)
 
+
 def outdirbrowser():
     outdir = askdirectory(parent=top, title="Select Root Output Directory", mustexist=1)
     if len(outdir) > 0:
@@ -202,12 +210,14 @@ def outdirbrowser():
 outdirButton = Button(top, text = 'Browse', command=outdirbrowser).grid(row=rowpos, column=4, pady=2, padx=2)
 rowpos += 1
 
-## Run Button
+
+# Run Button
 def callback():
     top.destroy()
 Button(top, text = 'Run', command=callback).grid(row=rowpos,column=3, pady=4, padx=4)
 
-## Quit Button
+
+# Quit Button
 def quitbutton():
         print "Processing cancelled"
         top.destroy()
@@ -216,20 +226,20 @@ Button(top, text='Quit', command=quitbutton).grid(row=rowpos, column=2, pady=4, 
 
 top.mainloop()
 
-## --------------End GUI----------------
+# --------------End GUI----------------
 
-## Set variables selected from GUI
+# Set variables selected from GUI
 Sensor = vSensor.get()
 inPath = indirVar.get()
 outPath = outdirVar.get()
 
-if not (outPath and os.path.exists(outPath)): os.makedirs(outPath) ## Create output directory if it doesn't exist
+if not (outPath and os.path.exists(outPath)): os.makedirs(outPath)  # Create output directory if it doesn't exist
 pathRoot, inRasterStr = os.path.split(inPath)
 print "Processing", inRasterStr
 
 inRaster = Dataset(inPath)
 
-## Set bands based on sensor
+# Set bands based on sensor
 if Sensor == "Landsat 1-5 MSS":
     Green = Float32(inRaster.get_raster_band(1))
     Red = Float32(inRaster.get_raster_band(2))
@@ -272,23 +282,23 @@ if Sensor == "Worldview 02":
     NIR1 = Float32(inRaster.get_raster_band(7))
     NIR2 = Float32(inRaster.get_raster_band(8))
 
-## Export individual Bands if selected
+# Export individual Bands if selected
 if exVar.get():
     print "Exporting Bands"
     for bandNo in range(inRaster._nbands):
         outBand = inRaster.get_raster_band(bandNo + 1) * 1.0
         outBand.save(outPath + "/" + inRasterStr[:-4] + "_B" + str(bandNo + 1) + ".tif")
 
-## Calculate and save indices
+# Calculate and save indices
 for key, value in indicesSensor.iteritems():
     if Sensor in value:
-        if cbVar[indices.index(key)].get(): ## Determine if indice was selected from GUI
-            if key == 'Brightness' or key == 'Greenness' or key == 'Wetness' or key == 'Yellowness': ## Check if tasseled cap index
-                formula = Config.get(Sensor, key) ## Get sensor specific tasseled cap coefficients
+        if cbVar[indices.index(key)].get():  # Determine if indice was selected from GUI
+            if key == 'Brightness' or key == 'Greenness' or key == 'Wetness' or key == 'Yellowness':  # Check if tasseled cap index
+                formula = Config.get(Sensor, key) # Get sensor specific tasseled cap coefficients
             else:
                 formula = Config.get("Formulas", key)
             print key
-            eval(formula).save(outPath + "/" + inRasterStr[:-4] + "_" + key + ".tif") ## Save index raster
+            eval(formula).save(outPath + "/" + inRasterStr[:-4] + "_" + key + ".tif")  # Save index raster
 
 endTime = time.time() - startTime
 print "Completed in", ("%.2f" % endTime), 'seconds.'
