@@ -15,7 +15,7 @@ Calculate spectral indices using satellite remote sensing data.
 
 Vegetation Related Indices
 
-* [NDVI (Normalized Difference Vegetation Index)] (http://www.indexdatabase.de/db/i-single.php?id=58)
+* [NDVI (Normalized Difference Vegetation Index)] (http://www.indexdatabase.de/db/i-single.php?id=58/)
 * [SAVI (Soil Adjusted Vegetation Index)] (http://www.indexdatabase.de/db/i-single.php?id=87)
 * [EVI (Enhanced Vegetation Index)] (http://www.indexdatabase.de/db/i-single.php?id=16)
 * [EVI2 (Enhanced Vegetation Index 2)] (http://www.indexdatabase.de/db/i-single.php?id=237)
