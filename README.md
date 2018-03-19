@@ -60,7 +60,7 @@ Requires arcpy and [Tkinter](https://wiki.python.org/moin/TkInter).
 
 **GDAL version**
 
-Requires [GDAL Calculations](https://pypi.python.org/pypi/gdal-calculations) and [Tkinter](https://wiki.python.org/moin/TkInter). 
+Requires [GDAL Calculations](https://github.com/lpinner/gdal-calculations) and [Tkinter](https://wiki.python.org/moin/TkInter). 
 
 ## Instructions
 
